@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#070A0F">
+<title>HIPERAXN</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,800;0,900;1,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── DARK MODE (default) ─────────────────────────────── */
+:root{
+  --bg:#080B13;--bg2:#0E1422;--bg3:#161D2E;--bg4:#1D2740;
+  --border:#1F2E45;--border2:#2E4460;
+  --text:#ECF0FB;--muted:#6E91B4;--dim:#1F2E45;
+  --pc:#38BDF8;--pb:rgba(56,189,248,0.10);
+  --r:14px;--rs:10px;--rx:7px;
+  color-scheme:dark;
+}
+/* ── LIGHT MODE (media query) ────────────────────────── */
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#EDF1F9;--bg2:#FFFFFF;--bg3:#E0E9F5;--bg4:#CDD9EC;
+    --border:#BAD0E8;--border2:#8AAFC9;
+    --text:#07192E;--muted:#2A5070;--dim:#8AAFC9;
+    color-scheme:light;
+  }
+}
+/* ── MANUAL OVERRIDES ────────────────────────────────── */
+html[data-theme="light"]{
+  --bg:#EDF1F9;--bg2:#FFFFFF;--bg3:#E0E9F5;--bg4:#CDD9EC;
+  --border:#BAD0E8;--border2:#8AAFC9;
+  --text:#07192E;--muted:#2A5070;--dim:#8AAFC9;
+  color-scheme:light;
+}
+html[data-theme="dark"]{
+  --bg:#080B13;--bg2:#0E1422;--bg3:#161D2E;--bg4:#1D2740;
+  --border:#1F2E45;--border2:#2E4460;
+  --text:#ECF0FB;--muted:#6E91B4;--dim:#1F2E45;
+  color-scheme:dark;
+}
+/* ── LIGHT MODE COMPONENT FIXES ─────────────────────── */
+html[data-theme="light"] body{background:var(--bg)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) body{background:var(--bg)}}
+/* Redefine local tokens — no !important needed */
+html[data-theme="light"] .tw-stepn{--tws-bg:rgba(120,80,0,.12);--tws-color:#5E3D00}
+html[data-theme="light"] .tw-formula b,html[data-theme="light"] .tw-badge{--twf-color:#5E3D00;--twb-color:#5E3D00}
+html[data-theme="light"] .tw-formula code{--twfc-bg:rgba(120,80,0,.10);--twfc-color:#5E3D00;border:none}
+html[data-theme="light"] .safetybody,html[data-theme="light"] .safetyt{--sfb-color:#8A0F0F;--sft-color:#8A0F0F}
+html[data-theme="light"] .safetybox{--sb-bg:rgba(138,15,15,.05);--sb-border:rgba(138,15,15,.18)}
+html[data-theme="light"] .microtitle{--mc-color:#42289E}
+html[data-theme="light"] .midot{--md-bg:#42289E}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]) .tw-stepn{--tws-bg:rgba(120,80,0,.12);--tws-color:#5E3D00}
+  :root:not([data-theme="dark"]) .tw-formula b,:root:not([data-theme="dark"]) .tw-badge{--twf-color:#5E3D00;--twb-color:#5E3D00}
+  :root:not([data-theme="dark"]) .tw-formula code{--twfc-bg:rgba(120,80,0,.10);--twfc-color:#5E3D00;border:none}
+  :root:not([data-theme="dark"]) .safetybody,:root:not([data-theme="dark"]) .safetyt{--sfb-color:#8A0F0F;--sft-color:#8A0F0F}
+  :root:not([data-theme="dark"]) .safetybox{--sb-bg:rgba(138,15,15,.05);--sb-border:rgba(138,15,15,.18)}
+  :root:not([data-theme="dark"]) .microtitle{--mc-color:#42289E}
+  :root:not([data-theme="dark"]) .midot{--md-bg:#42289E}
+  :root:not([data-theme="dark"]) .excard,:root:not([data-theme="dark"]) .wublock,:root:not([data-theme="dark"]) .pc,:root:not([data-theme="dark"]) .techcard,:root:not([data-theme="dark"]) .tw-card,:root:not([data-theme="dark"]) .reg-excard{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+  :root:not([data-theme="dark"]) #tov{background:rgba(237,241,249,.97)}
+  :root:not([data-theme="dark"]) #mobile-nav{background:rgba(237,241,249,.97);border-color:rgba(0,0,0,.09)}
+}
+html[data-theme="light"] .excard,html[data-theme="light"] .wublock,html[data-theme="light"] .pc,html[data-theme="light"] .techcard,html[data-theme="light"] .tw-card,html[data-theme="light"] .reg-excard{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+html[data-theme="light"] #tov{background:rgba(237,241,249,.97)}
+
+/* GENERAL MODERN POLISH — micro-interactions */
+
+/* Smooth sdot hover */
+.sdot{
+  width:52px;height:52px;border-radius:var(--rs);border:2px solid var(--border2);
+  background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;
+}
+.sdot:hover:not(.done){border-color:var(--pc);transform:scale(1.05)}
+.sdot:active{transform:scale(.93)!important}
+.sdot::before{content:'';position:absolute;inset:0;background:var(--pc);opacity:0;transition:opacity .25s}
+.sdot.done::before{opacity:.07}
+.sdot.done{border-color:var(--pc)}
+.sdot-n{font-size:13px;font-weight:800;color:var(--muted);position:relative;z-index:1;transition:all .25s}
+.sdot.done .sdot-n{font-size:10px;color:var(--pc)}
+.sdot-kg{font-size:9px;font-weight:700;margin-top:1px;position:relative;z-index:1;transition:color .25s}
+.sdot.done .sdot-kg{color:var(--pc)}
+.sdot-reps{font-size:8px;opacity:.65;position:relative;z-index:1}
+.sdot.done .sdot-reps{opacity:.85;color:var(--muted)}
+.sdot-rpe{position:absolute;top:3px;right:4px;font-size:7px;font-weight:700;z-index:2;opacity:.8}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',system-ui,sans-serif;font-size:15px;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+
+/* HEADER */
+#hdr{
+  background:rgba(7,9,14,.82);border-bottom:1px solid var(--border);
+  padding:0 16px;position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  height:52px;
+}
+#hdr-row{display:flex;align-items:center;gap:10px;max-width:1080px;margin:0 auto;height:100%}
+#logo{
+  font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:900;
+  letter-spacing:3px;color:var(--text);line-height:1;user-select:none;
+  white-space:nowrap;flex-shrink:0;
+}
+#logo span{transition:color .4s}
+#hdr-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0}
+#phinfo{text-align:right;line-height:1.3;white-space:nowrap}
+#pn{font-size:10px;font-weight:700;letter-spacing:.3px;white-space:nowrap}
+#pr{font-size:9px;color:var(--muted);white-space:nowrap}
+#pr b{font-weight:700;transition:color .4s}
+.orb{width:10px;height:10px;border-radius:50%;background:var(--pc);box-shadow:0 0 10px var(--pc);transition:all .4s;animation:pulse 2.5s ease-in-out infinite;cursor:pointer;flex-shrink:0}
+#orb-wrap{display:flex;align-items:center;justify-content:center;cursor:pointer;padding:4px}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.55}}
+
+html[data-theme="light"] #hdr{background:rgba(240,244,250,.88)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]) #hdr{background:rgba(240,244,250,.88)}}
+
+/* LAYOUT */
+#app-layout{display:flex;flex-direction:column;max-width:580px;margin:0 auto;padding:10px 12px 115px}
+@media(min-width:768px){
+  #app-layout{flex-direction:row;max-width:1080px;gap:26px;align-items:flex-start;padding-bottom:30px}
+  #sidebar{flex:0 0 296px;position:sticky;top:66px}
+  #main-content{flex:1;min-width:0}
+  #mobile-nav{display:none!important}
+  #ctabs{display:flex!important}
+}
+
+/* MOBILE NAV — Modern floating pill */
+#mobile-nav{
+  display:flex;position:fixed;bottom:16px;left:12px;right:12px;
+  z-index:90;
+  background:rgba(10,12,22,.93);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:24px;
+  padding:6px 4px;
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  box-shadow:0 10px 40px rgba(0,0,0,.55),0 3px 10px rgba(0,0,0,.35);
+  white-space:nowrap;
+}
+.mnb{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:7px 4px;border-radius:18px;background:transparent;border:none;
+  color:var(--muted);cursor:pointer;font-family:'Outfit',sans-serif;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  position:relative;
+  min-width:0;
+}
+.mnb-icon{font-size:20px;line-height:1;transition:transform .25s}
+.mnb-lbl{font-size:9px;font-weight:600;letter-spacing:.2px;transition:color .25s;white-space:nowrap}
+.mnb.on{background:rgba(255,255,255,.08);color:var(--pc)}
+.mnb.on .mnb-lbl{color:var(--pc)}
+.mnb.on .mnb-icon{transform:scale(1.12)}
+.mnb.on::after{
+  content:'';position:absolute;bottom:1px;left:50%;transform:translateX(-50%);
+  width:18px;height:2.5px;border-radius:99px;background:var(--pc);
+  box-shadow:0 0 8px var(--pc);
+}
+@media(prefers-color-scheme:light){
+  :root:not([data-theme="dark"]) #mobile-nav{
+    background:rgba(237,241,249,.97);
+    border-color:rgba(0,0,0,.10);
+    box-shadow:0 10px 40px rgba(0,0,0,.14),0 3px 10px rgba(0,0,0,.08);
+  }
+}
+html[data-theme="light"] #mobile-nav{background:rgba(237,241,249,.97)!important;border-color:rgba(0,0,0,.10)!important}
+html[data-theme="dark"] #mobile-nav{background:rgba(10,12,22,.93)!important}
+
+/* TIMER */
+#tov{position:fixed;inset:0;background:rgba(7,10,15,.97);backdrop-filter:blur(20px);z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px}
+#tov.show{display:flex}
+#trw{position:relative;width:196px;height:196px}
+#tsvg{transform:rotate(-90deg);width:196px;height:196px}
+#tbg{fill:none;stroke:var(--border2);stroke-width:3.5}
+#tfg{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:565;stroke-dashoffset:0;transition:stroke-dashoffset 1s linear,stroke .4s}
+#tnum{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#tsecs{font-family:'Barlow Condensed',sans-serif;font-size:68px;font-weight:900;line-height:1;transition:color .3s;letter-spacing:-2px}
+#tlbl{font-size:9px;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;margin-top:4px}
+#tex{font-size:12px;color:var(--muted);text-align:center;max-width:220px;line-height:1.55;margin-top:2px}
+.t-controls{display:flex;gap:8px}
+.tbtn{background:var(--bg3);border:1.5px solid var(--border2);color:var(--text);padding:10px 22px;border-radius:99px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;transition:all .15s}
+.tbtn:active{transform:scale(.92)}
+#tskip{background:transparent;border:1.5px solid var(--border2);color:var(--muted);font-size:12px;font-weight:600;padding:10px 28px;border-radius:99px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;margin-top:2px}
+#tskip:hover{border-color:var(--muted);color:var(--text)}
+
+/* LOG MODAL */
+#logmodal{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);z-index:150;display:none;align-items:flex-end;justify-content:center}
+#logmodal.show{display:flex}
+#logbox{background:var(--bg2);border:1px solid var(--border2);border-radius:20px 20px 0 0;width:100%;max-width:560px;padding:20px 20px 38px;animation:slideUp .22s cubic-bezier(.4,0,.2,1)}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+#logbox-exname{font-size:9px;color:var(--muted);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+#logbox-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;letter-spacing:1px;margin-bottom:2px;transition:color .4s}
+#logbox-plan{font-size:11px;color:var(--muted);margin-bottom:14px;padding:8px 12px;background:var(--bg3);border-radius:var(--rx);border:1px solid var(--border);line-height:1.5}
+/* Numpad fields */
+.log-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.log-field label{display:block;font-size:8px;color:var(--muted);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.log-numpad{display:flex;align-items:center;background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--rs);overflow:hidden;transition:border-color .2s}
+.log-numpad:focus-within{border-color:var(--pc)}
+.log-numpad-btn{
+  background:var(--bg4);border:none;color:var(--text);
+  font-size:18px;font-weight:700;width:38px;flex-shrink:0;
+  cursor:pointer;transition:background .15s,transform .1s;
+  display:flex;align-items:center;justify-content:center;
+  height:52px;font-family:'Barlow Condensed',sans-serif;
+  user-select:none;-webkit-user-select:none;
+}
+.log-numpad-btn:active{background:var(--border2);transform:scale(.94)}
+.log-numpad-val{
+  flex:1;text-align:center;font-size:28px;font-weight:900;
+  font-family:'Barlow Condensed',sans-serif;color:var(--text);
+  height:52px;line-height:52px;background:transparent;letter-spacing:.5px;
+  border:none;outline:none;cursor:default;
+  /* hide as input visually, keep for JS compat */
+  width:100%;padding:0;
+}
+.log-field input.log-numpad-val{-webkit-appearance:none;appearance:none}
+#log-rpe-wrap{margin-bottom:12px}
+#log-rpe-wrap label{display:block;font-size:8px;color:var(--muted);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+#log-rpe-btns{display:flex;gap:4px}
+.rpe-btn{flex:1;padding:9px 2px;border:1.5px solid var(--border2);background:var(--bg3);border-radius:var(--rx);color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;font-family:'Barlow Condensed',sans-serif}
+.rpe-btn.sel{color:#000;font-weight:900}
+#logbox-vol{background:var(--bg3);border-radius:var(--rs);padding:10px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border)}
+#logbox-vol-lbl{font-size:9px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+#logbox-vol-val{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;transition:color .4s}
+#logbox-vol-unit{font-size:10px;color:var(--muted);margin-left:3px}
+.log-btns{display:flex;gap:8px}
+#logbtn-cancel{flex:1;padding:14px;border-radius:var(--rs);border:1.5px solid var(--border2);background:transparent;color:var(--text);font-size:14px;font-weight:600;font-family:'Outfit',sans-serif;cursor:pointer;transition:all .2s}
+#logbtn-ok{flex:2;padding:14px;border-radius:var(--rs);border:none;font-size:14px;font-weight:700;color:#000;font-family:'Outfit',sans-serif;cursor:pointer;transition:background .2s;letter-spacing:.3px}
+
+/* SIDEBAR — colapsa en móvil si no tiene contenido visible */
+#sidebar:not(.has-content){padding:0;margin:0}
+#sidebar.has-content{margin-bottom:4px}
+.sidebar-main-only{transition:opacity .2s;overflow:hidden}
+.sidebar-main-only.hidden{display:none!important}
+.sl{display:flex;align-items:center;gap:7px;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:9px;transition:color .3s}
+.sl::before{content:'';display:inline-block;width:3px;height:10px;border-radius:99px;background:var(--pc);flex-shrink:0;transition:background .4s}
+#cprog{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:15px 16px;margin-bottom:18px}
+#cprow{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+#cplbl{font-size:12px;font-weight:600;color:var(--text)}
+#cppct{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;margin-left:auto;transition:color .4s;letter-spacing:-.5px}
+#cpbarbg{height:6px;background:var(--border2);border-radius:99px;overflow:hidden}
+#cpbar{height:100%;border-radius:99px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+#cpphases{display:flex;margin-top:10px}
+.cpph{flex:4;font-size:8px;text-align:center;transition:color .3s;font-weight:700;letter-spacing:.7px;text-transform:uppercase}
+
+#wks{
+  display:flex;flex-wrap:nowrap;gap:5px;margin-bottom:18px;
+  overflow-x:auto;overflow-y:hidden;
+  padding:4px 2px 8px 2px;
+  scroll-behavior:smooth;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+#wks::-webkit-scrollbar{display:none}
+.wb{
+  width:42px;min-width:42px;height:42px;border-radius:var(--rs);border:1.5px solid var(--border);
+  background:var(--bg2);color:var(--muted);font-family:'Barlow Condensed',sans-serif;
+  font-size:15px;font-weight:700;cursor:pointer;position:relative;transition:all .25s;
+  letter-spacing:.3px;flex-shrink:0;
+}
+.wb:hover:not(.on){border-color:var(--border2);color:var(--text);transform:translateY(-1px)}
+.wb.on{transform:scale(1.08);font-weight:900;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.wb .tl{position:absolute;top:2px;right:3px;font-size:5px;color:#FBBF24;font-weight:900;letter-spacing:.5px}
+
+#spills{
+  display:flex;flex-direction:row;gap:6px;margin-bottom:18px;
+  overflow-x:auto;scrollbar-width:none;
+  padding:4px 2px 6px 2px;
+}
+#spills::-webkit-scrollbar{display:none}
+.sp{
+  flex:1;min-width:72px;max-width:none;padding:10px 6px;border-radius:var(--rs);
+  border:1.5px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer;
+  text-align:center;font-family:'Outfit',sans-serif;
+  transition:border-color .22s,background .22s,box-shadow .22s,transform .2s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.sp .sn{
+  display:flex;align-items:center;justify-content:center;
+  width:32px;height:32px;border-radius:50%;background:var(--bg3);
+  border:1.5px solid var(--border2);margin-bottom:5px;
+  font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:900;
+  letter-spacing:1px;line-height:1;transition:all .22s;flex-shrink:0;
+}
+.sp .sf{display:block;font-size:9px;font-weight:600;line-height:1.3;letter-spacing:.2px}
+.sp .so{display:block;font-size:6.5px;color:#FBBF24;font-weight:700;margin-top:2px;letter-spacing:.5px}
+.sp.on{border-color:var(--pc);background:var(--pb);box-shadow:0 3px 12px rgba(0,0,0,.14);transform:translateY(-1px)}
+.sp.on .sn{background:var(--pc);border-color:var(--pc);color:#fff}
+.sp:not(.on):hover{border-color:var(--border2);transform:translateY(-1px)}
+
+#ctabs{
+  display:none;flex-direction:column;gap:3px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  padding:5px;margin-bottom:0;
+}
+.ctb{
+  flex:1;padding:9px 12px;border-radius:var(--rs);border:none;background:transparent;
+  color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;
+  font-family:'Outfit',sans-serif;transition:all .2s;letter-spacing:.2px;
+  text-align:left;display:flex;align-items:center;gap:8px;
+}
+.ctb::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:all .2s}
+.ctb.on{font-weight:700;box-shadow:0 1px 8px rgba(0,0,0,.12)}
+.ctb.on::before{background:var(--pc);box-shadow:0 0 6px var(--pc)}
+
+/* PANELS */
+.panel{display:none;animation:fadeUp .22s ease}
+.panel.on{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+
+/* SESSION */
+#shdr{padding:16px 18px;margin-bottom:12px;border-radius:var(--r);background:var(--bg2);border:1px solid var(--border);position:relative;overflow:hidden}
+#shdr::after{content:'';position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:var(--pb);pointer-events:none}
+#shdr-row{display:flex;align-items:center;gap:14px;position:relative}
+#shtitle{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:1px;line-height:1;transition:color .4s,background .4s,box-shadow .4s;flex-shrink:0;box-shadow:0 0 0 4px var(--pb)}
+#shinfo{flex:1}
+#shfocus{font-weight:700;font-size:13px;line-height:1.35;margin-bottom:3px}
+#shmeta{font-size:11px;color:var(--muted);line-height:1.5}
+#sdurbox{text-align:right;flex-shrink:0}
+#sdurlbl{font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;font-weight:700}
+#sdurval{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;transition:color .4s;letter-spacing:-.5px}
+
+#sprogbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:11px 14px}
+#sptext{font-size:11px;color:var(--muted);font-weight:500;flex:1;white-space:nowrap}
+#sptext b{color:var(--text);font-weight:700}
+#spbarbg{flex:2;height:5px;background:var(--border2);border-radius:99px;overflow:hidden}
+#spbar{height:100%;border-radius:99px;width:0%;transition:width .4s cubic-bezier(.4,0,.2,1)}
+#sppct{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:900;transition:color .4s;min-width:38px;text-align:right}
+
+/* EXERCISE CARDS */
+#exlist{display:flex;flex-direction:column;gap:10px}
+.excard{
+  background:var(--bg2);border-radius:var(--r);border:1px solid var(--border);
+  overflow:hidden;transition:border-color .25s,box-shadow .25s,transform .2s;
+}
+.excard:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,.18)}
+.excard.open{border-color:var(--pc);box-shadow:0 6px 28px rgba(0,0,0,.25)}
+.extop{display:flex;align-items:center;gap:12px;padding:14px 15px;cursor:pointer;user-select:none;position:relative}
+.exnum{
+  width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;flex-shrink:0;
+  transition:all .3s;
+}
+.exmain{flex:1;min-width:0}
+.exname{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.2px}
+.exsub{font-size:11px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:6px}
+.exsub-dot{width:3px;height:3px;border-radius:50%;background:var(--border2);flex-shrink:0}
+.exqs{display:flex;gap:5px;flex-shrink:0}
+.exqchip{
+  padding:5px 9px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);
+  text-align:center;min-width:46px;transition:all .2s;
+}
+.excard.open .exqchip{background:var(--pb);border-color:rgba(var(--pc-rgb),.3)}
+.exql{font-size:6px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;font-weight:700}
+.exqv{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;line-height:1}
+.excaret{
+  color:var(--muted);font-size:9px;transition:transform .3s cubic-bezier(.4,0,.2,1);flex-shrink:0;
+  width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;background:var(--bg3);border:1px solid var(--border);
+}
+.excard.open .excaret{transform:rotate(90deg);color:var(--pc);border-color:var(--pc);background:var(--pb)}
+.exbody{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s cubic-bezier(.4,0,.2,1),padding .3s;
+  padding:0 15px;
+  display:flex;flex-direction:column;gap:11px;
+  border-top:none;
+}
+.excard.open .exbody{
+  max-height:600px;padding:14px 15px 15px;border-top:1px solid var(--border);
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.excard.open .exbody > *{animation:fadeIn .25s ease both}
+.excard.open .exbody > *:nth-child(1){animation-delay:.04s}
+.excard.open .exbody > *:nth-child(2){animation-delay:.08s}
+.excard.open .exbody > *:nth-child(3){animation-delay:.12s}
+.excard.open .exbody > *:nth-child(4){animation-delay:.16s}
+.inittag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);font-size:11px;color:#FBBF24;font-weight:600}
+
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.sbox{background:var(--bg3);border-radius:var(--rx);padding:10px 8px;border:1px solid var(--border);text-align:center;transition:background .2s}
+.sbl{font-size:7px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:4px;font-weight:700}
+.sbv{font-weight:800;font-size:14px;font-family:'Barlow Condensed',sans-serif;color:var(--text)}
+.cue{border-left:2.5px solid;border-radius:0 var(--rs) var(--rs) 0;padding:11px 13px;background:var(--bg3)}
+.cuel{font-size:8px;color:var(--muted);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}
+.cuet{font-size:14px;line-height:1.65;color:var(--text)}
+.setslbl{font-size:9px;color:var(--muted);font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:4px}
+.setshint{font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.5}
+.setsrow{display:flex;gap:6px;flex-wrap:wrap}
+/* WARMUP */
+.wublock{
+  background:var(--bg2);border-radius:var(--r);border:1px solid var(--border);
+  overflow:hidden;margin-bottom:10px;transition:box-shadow .2s;
+}
+.wublock:hover{box-shadow:0 4px 18px rgba(0,0,0,.15)}
+.wuhdr{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:default}
+.wustep{
+  width:34px;height:34px;border-radius:var(--rx);display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:#000;flex-shrink:0;
+}
+.wutitle{font-weight:700;font-size:14px;color:var(--text)}
+.wutime{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--muted)}
+.wuitems{padding:0 16px 12px}
+.wuitem{
+  display:flex;align-items:center;gap:12px;padding:11px 0;
+  border-bottom:1px solid var(--border);font-size:14px;cursor:pointer;
+  transition:all .2s;user-select:none;line-height:1.5;color:var(--text);
+}
+.wuitem:last-child{border-bottom:none}
+.wuitem.chk{color:var(--muted);text-decoration:line-through}
+.wuitem:not(.chk):hover{color:var(--pc);padding-left:4px}
+.wuchk{
+  width:22px;height:22px;border-radius:7px;border:2px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-size:11px;transition:all .25s;color:transparent;
+}
+.wuitem.chk .wuchk{border-color:var(--pc);color:var(--pc);background:var(--pb)}
+
+/* PROGRESSION */
+.pc{
+  background:var(--bg2);border-radius:var(--r);padding:0;margin-bottom:8px;
+  border:1px solid var(--border);border-left-width:3px;
+  overflow:hidden;transition:transform .2s,box-shadow .2s;
+  min-height:88px;
+}
+.pc:hover{transform:translateX(2px);box-shadow:0 4px 18px rgba(0,0,0,.18)}
+.prow{display:flex;gap:0;align-items:stretch;min-height:inherit}
+.picon{
+  width:56px;min-width:56px;display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;font-family:'Barlow Condensed',sans-serif;font-weight:900;
+  border-right:1px solid var(--border);
+}
+.pbody{flex:1;padding:14px 15px;display:flex;flex-direction:column;justify-content:center}
+.pcond{font-size:14px;font-weight:500;margin-bottom:7px;line-height:1.5;color:var(--text)}
+.pact{font-size:14px;font-weight:700}
+.pact::before{content:'→ '}
+.microcard{background:var(--bg2);border-radius:var(--r);padding:14px;border:1px solid var(--border);margin-top:4px}
+.microtitle{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;--mc-color:#A78BFA;color:var(--mc-color);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.mi{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--muted);line-height:1.6}
+.mi:last-child{border-bottom:none}
+.mi b{color:var(--text)}
+.midot{width:6px;height:6px;border-radius:99px;--md-bg:#A78BFA;background:var(--md-bg);margin-top:7px;flex-shrink:0}
+
+/* TECHNIQUE */
+.techpills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.tpill{
+  padding:8px 16px;border-radius:99px;border:1.5px solid var(--border);background:transparent;
+  color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;
+  transition:all .25s;
+}
+.tpill:hover{border-color:var(--border2);color:var(--text);transform:translateY(-1px)}
+.techcard{background:var(--bg2);border-radius:var(--r);border:1px solid var(--border);overflow:hidden}
+.techhdr{padding:20px 18px;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden}
+.techhdr::after{content:'';position:absolute;right:-20px;top:-20px;width:100px;height:100px;border-radius:50%;background:var(--pb);pointer-events:none}
+.techicon{font-size:36px;line-height:1;z-index:1}
+.techname{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:1px;transition:color .4s;z-index:1}
+.techsub{font-size:11px;color:var(--muted);margin-top:3px;font-weight:500;z-index:1}
+.techsteps{padding:0 18px 4px}
+.ts{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);align-items:flex-start;transition:background .15s}
+.ts:last-child{border-bottom:none}
+.tsn{
+  width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:900;flex-shrink:0;
+  margin-top:1px;
+}
+.tst{font-size:14px;line-height:1.65;padding-top:3px;color:var(--text)}
+.safetybox{margin:0 18px 18px;--sb-bg:rgba(248,113,113,.06);--sb-border:rgba(248,113,113,.2);background:var(--sb-bg);border:1px solid var(--sb-border);border-radius:var(--rs);padding:13px 15px}
+.safetyt{font-size:8px;font-weight:700;--sft-color:#F87171;color:var(--sft-color);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.safetybody{font-size:13px;--sfb-color:#F87171;color:var(--sfb-color);line-height:1.6}
+
+/* TEST BANNER */
+.testbanner{margin-top:12px}
+.tw-hero{border-radius:var(--r);padding:16px;margin-bottom:8px;border:1px solid rgba(251,191,36,.25);background:linear-gradient(135deg,rgba(251,191,36,.05),rgba(251,146,60,.03))}
+.tw-badge{display:inline-block;font-size:8px;font-weight:700;--twb-color:#FBBF24;color:var(--twb-color);letter-spacing:2px;text-transform:uppercase;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2);border-radius:99px;padding:3px 12px;margin-bottom:9px}
+.tw-title{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;margin-bottom:5px;letter-spacing:.5px}
+.tw-sub{font-size:12px;color:var(--muted);line-height:1.65}
+.tw-sec{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;margin:13px 0 8px}
+.tw-card{background:var(--bg2);border-radius:var(--rs);border:1px solid var(--border);padding:13px 14px;margin-bottom:7px}
+.tw-ctitle{font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.tw-step{display:flex;gap:10px;font-size:12px;line-height:1.55;padding:5px 0}
+.tw-stepn{width:20px;height:20px;border-radius:5px;--tws-bg:rgba(251,191,36,.1);--tws-color:#FBBF24;background:var(--tws-bg);color:var(--tws-color);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;font-family:'Barlow Condensed',sans-serif}
+.tw-formula{background:var(--bg3);border-radius:var(--rx);padding:12px;margin-top:8px;font-size:12px;line-height:1.75;border:1px solid var(--border)}
+.tw-formula b{--twf-color:#FBBF24;color:var(--twf-color)}
+.tw-formula code{--twfc-bg:rgba(251,191,36,.1);--twfc-color:#FBBF24;background:var(--twfc-bg);border-radius:4px;padding:2px 7px;font-family:monospace;font-size:11px;color:var(--twfc-color)}
+.tw-measure{background:rgba(96,165,250,.05);border:1px solid rgba(96,165,250,.15);border-radius:var(--rs);padding:13px 14px;margin-bottom:7px}
+.tw-mtitle{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:#60A5FA;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.tw-mgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.tw-mbox{background:var(--bg3);border-radius:var(--rx);padding:10px 11px;border:1px solid var(--border)}
+.tw-ml{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-weight:700}
+.tw-mv{font-size:12px;font-weight:500;line-height:1.4}
+
+/* REGISTRO */
+.reg-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:13px}
+.reg-stat{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:13px 10px;text-align:center;transition:transform .2s,box-shadow .2s}
+.reg-stat:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.reg-stat-lbl{font-size:7.5px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin-bottom:6px}
+.reg-stat-val{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;line-height:1;transition:color .4s}
+.reg-stat-unit{font-size:9px;color:var(--muted);margin-top:3px}
+.reg-excard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);margin-bottom:7px;overflow:hidden;transition:box-shadow .2s}
+.reg-excard:hover{box-shadow:0 3px 12px rgba(0,0,0,.14)}
+.reg-exhdr{display:flex;align-items:center;gap:10px;padding:12px 14px}
+.reg-exname{font-weight:700;font-size:13px;flex:1;color:var(--text)}
+.reg-exvol{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;transition:color .4s}
+.reg-exvol-unit{font-size:10px;color:var(--muted);margin-left:2px}
+.reg-sets{padding:0 14px 12px;display:flex;flex-direction:column;gap:5px}
+.reg-set{display:flex;align-items:center;gap:10px;padding:8px 11px;background:var(--bg3);border-radius:var(--rx);border:1px solid var(--border)}
+.reg-set-n{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:900;width:18px;flex-shrink:0;transition:color .4s}
+.reg-set-data{flex:1;font-size:12px;color:var(--text)}
+.reg-set-rpe{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:4px}
+.reg-set-vol{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--muted)}
+.reg-empty{text-align:center;padding:44px 20px;color:var(--muted)}
+.reg-empty-icon{font-size:38px;margin-bottom:12px}
+.reg-empty-title{font-weight:700;font-size:14px;color:var(--text);margin-bottom:6px}
+.reg-empty-sub{font-size:12px;line-height:1.65}
+.reg-chart-container{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:14px;margin-bottom:13px}
+.reg-chart-title{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.reg-actions{display:flex;gap:8px;margin-top:13px}
+.btn-outline{flex:1;padding:12px;background:transparent;border:1.5px solid var(--border);color:var(--text);border-radius:var(--rs);font-family:'Outfit';font-weight:600;cursor:pointer;font-size:13px;transition:all .2s}
+.btn-danger{flex:1;padding:12px;background:rgba(248,113,113,.07);border:1.5px solid rgba(248,113,113,.2);color:#F87171;border-radius:var(--rs);font-family:'Outfit';font-weight:600;cursor:pointer;font-size:13px;transition:all .2s}
+
+/* NUTRICIÓN */
+.nut-intro{font-size:13px;color:var(--text);margin-bottom:14px;line-height:1.65;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs)}
+.nut-section-title{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;margin:18px 0 9px;display:flex;align-items:center;gap:8px}
+.nut-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.nut-macro-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:6px}
+.nut-macro{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:14px 13px;transition:transform .2s,box-shadow .2s}
+.nut-macro:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.14)}
+.nut-macro-lbl{font-size:8px;color:var(--muted);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.nut-macro-val{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;transition:color .4s;line-height:1}
+.nut-macro-unit{font-size:10px;color:var(--muted);margin-top:3px}
+.nut-macro-note{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.45}
+.nut-timing-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);margin-bottom:7px;overflow:hidden}
+.nut-timing-row{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border-bottom:1px solid var(--border);transition:background .15s}
+.nut-timing-row:last-child{border-bottom:none}
+.nut-timing-row:hover{background:var(--bg3)}
+.nut-timing-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.nut-timing-info{flex:1}
+.nut-timing-lbl{font-size:11px;font-weight:700;letter-spacing:.3px;margin-bottom:4px;color:var(--text)}
+.nut-timing-val{font-size:12px;color:var(--muted);line-height:1.55}
+.sleep-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.sleep-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs);padding:14px;transition:transform .2s,box-shadow .2s}
+.sleep-card:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.14)}
+.sleep-card-icon{font-size:22px;margin-bottom:8px}
+.sleep-card-title{font-size:12px;font-weight:700;margin-bottom:5px;letter-spacing:.2px;color:var(--text)}
+.sleep-card-text{font-size:11px;color:var(--muted);line-height:1.55}
+/* 1RM INLINE CALCULATOR */
+.rm-inline{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);padding:14px;margin-top:10px}
+.rm-inline-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.rm-inline-field label{display:block;font-size:8px;color:var(--muted);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}
+.rm-inline-field input{width:100%;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--rx);color:var(--text);font-size:24px;font-weight:900;font-family:'Barlow Condensed',sans-serif;padding:9px 12px;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.rm-inline-field input:focus{border-color:var(--pc)}
+.rm-inline-result{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:var(--rx);border:1.5px solid var(--border2);background:var(--bg);margin-bottom:8px;transition:all .3s}
+.rm-inline-result.has-result{border-color:var(--pc);background:var(--pb)}
+.rm-inline-result-lbl{font-size:9px;color:var(--muted);font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.rm-inline-result-val{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:var(--muted);transition:color .3s}
+.rm-inline-pcts{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.rm-inline-pct{background:var(--bg);border:1px solid var(--border);border-radius:var(--rx);padding:7px 4px;text-align:center}
+.rm-inline-pct-lbl{font-size:8px;color:var(--muted);font-weight:700;letter-spacing:.5px}
+.rm-inline-pct-val{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:900;color:var(--muted);transition:color .3s;margin-top:2px}
+.rm-inline-pct-reps{font-size:8px;color:var(--muted);margin-top:1px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="hdr">
+  <div id="hdr-row">
+    <div id="logo">HIPER<span id="la">AXN</span></div>
+    <div id="hdr-right">
+      <div id="phinfo"><div id="pn">F1 · <span id="pnlbl">Reacond.</span></div><div id="pr">RPE: <b id="prv">6-7</b></div></div>
+      <div id="orb-wrap" onclick="toggleTheme()"><div class="orb" id="orb"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TIMER -->
+<div id="tov">
+  <div id="tex">Descansando tras serie</div>
+  <div id="trw">
+    <svg id="tsvg" viewBox="0 0 196 196"><circle id="tbg" cx="98" cy="98" r="90"/><circle id="tfg" cx="98" cy="98" r="90"/></svg>
+    <div id="tnum"><div id="tsecs">90</div><div id="tlbl">segundos</div></div>
+  </div>
+  <div class="t-controls">
+    <button class="tbtn" onclick="adjTimer(-15)">−15s</button>
+    <button class="tbtn" onclick="adjTimer(+15)">+15s</button>
+  </div>
+  <button id="tskip" onclick="stopTimer()">Saltar descanso ✕</button>
+</div>
+
+<!-- LOG MODAL -->
+<div id="logmodal">
+  <div id="logbox">
+    <div id="logbox-exname">Ejercicio</div>
+    <div id="logbox-title">Serie 1</div>
+    <div id="logbox-plan">Planificado: —</div>
+    <div class="log-fields">
+      <div class="log-field">
+        <label>Peso (kg)</label>
+        <div class="log-numpad">
+          <button class="log-numpad-btn" onclick="adjLog('kg',-5)" type="button">−5</button>
+          <input class="log-numpad-val" type="number" id="log-kg" inputmode="none" readonly step="0.5" placeholder="0">
+          <button class="log-numpad-btn" onclick="adjLog('kg',5)" type="button">+5</button>
+        </div>
+      </div>
+      <div class="log-field">
+        <label>Repeticiones</label>
+        <div class="log-numpad">
+          <button class="log-numpad-btn" onclick="adjLog('reps',-1)" type="button">−</button>
+          <input class="log-numpad-val" type="number" id="log-reps" inputmode="none" readonly placeholder="0">
+          <button class="log-numpad-btn" onclick="adjLog('reps',1)" type="button">+</button>
+        </div>
+      </div>
+    </div>
+    <div id="log-rpe-wrap">
+      <label>RPE percibido</label>
+      <div id="log-rpe-btns">
+        <button class="rpe-btn" data-rpe="5" onclick="selRpe(5)">5</button>
+        <button class="rpe-btn" data-rpe="6" onclick="selRpe(6)">6</button>
+        <button class="rpe-btn" data-rpe="7" onclick="selRpe(7)">7</button>
+        <button class="rpe-btn" data-rpe="8" onclick="selRpe(8)">8</button>
+        <button class="rpe-btn" data-rpe="9" onclick="selRpe(9)">9</button>
+        <button class="rpe-btn" data-rpe="10" onclick="selRpe(10)">10</button>
+      </div>
+    </div>
+    <div id="logbox-vol">
+      <div><div id="logbox-vol-lbl">Volumen esta serie</div></div>
+      <div><span id="logbox-vol-val">—</span><span id="logbox-vol-unit"> kg·rep</span></div>
+    </div>
+    <div class="log-btns">
+      <button id="logbtn-cancel" onclick="closeLog()">Cancelar</button>
+      <button id="logbtn-ok" onclick="confirmLog()">✓ Completada</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP LAYOUT -->
+<div id="app-layout">
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div id="cprog" class="sidebar-main-only">
+      <div id="cprow"><div id="cplbl">Progreso del ciclo</div><div id="cppct">0%</div></div>
+      <div id="cpbarbg"><div id="cpbar" style="width:0%"></div></div>
+      <div id="cpphases"><div class="cpph" id="cpp1">Fase 1</div><div class="cpph" id="cpp2">Fase 2</div><div class="cpph" id="cpp3">Fase 3</div></div>
+    </div>
+    <div class="sl sidebar-main-only">Semana del ciclo</div>
+    <div id="wks" class="sidebar-main-only"></div>
+    <div class="sl sidebar-main-only">Sesión</div>
+    <div id="spills" class="sidebar-main-only">
+      <button class="sp" data-s="A" onclick="setSess('A')"><span class="sn">A</span><span class="sf">Empuje+Cuáds</span></button>
+      <button class="sp" data-s="B" onclick="setSess('B')"><span class="sn">B</span><span class="sf">Tirón+Post.</span></button>
+      <button class="sp" data-s="C" onclick="setSess('C')"><span class="sn">C</span><span class="sf">Full Body</span></button>
+      <button class="sp" data-s="D" onclick="setSess('D')"><span class="sn">D</span><span class="sf">Complement.</span><span class="so">OPCIONAL</span></button>
+    </div>
+    <div class="sl" id="tools-sl">Entrenamiento</div>
+    <div id="ctabs">
+      <button class="ctb" onclick="setTab('session')">Sesión</button>
+      <button class="ctb" onclick="setTab('warmup')">Calentam.</button>
+      <button class="ctb" onclick="setTab('progression')">Progresión</button>
+      <button class="ctb" onclick="setTab('technique')">Técnica</button>
+      <button class="ctb" onclick="setTab('registro')">Registro</button>
+      <button class="ctb" onclick="setTab('nutricion')">Nutrición</button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="main-content">
+
+    <!-- PANEL: SESIÓN -->
+    <div id="p-session" class="panel">
+      <div id="shdr">
+        <div id="shdr-row">
+          <div id="shtitle">A</div>
+          <div id="shinfo"><div id="shfocus"></div><div id="shmeta"></div></div>
+          <div id="sdurbox"><div id="sdurlbl">Duración</div><div id="sdurval"></div></div>
+        </div>
+      </div>
+      <div id="sprogbar">
+        <div id="sptext">Series: <b id="spdone">0</b> / <b id="sptotal">0</b></div>
+        <div id="spbarbg"><div id="spbar"></div></div>
+        <div id="sppct">0%</div>
+      </div>
+      <div id="exlist"></div>
+      <div id="testbanner"></div>
+    </div>
+
+    <!-- PANEL: CALENTAMIENTO -->
+    <div id="p-warmup" class="panel">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.65">Ejecutar en orden. Toca cada ítem para marcarlo.<br>Total: <strong style="color:var(--text)">8-12 minutos</strong>. Crítico dado el perfil sedentario (6-7h diarias sentado).</p>
+      <div class="wublock">
+        <div class="wuhdr"><div class="wustep" id="ws1">A</div><div class="wutitle">Activación</div><div class="wutime" id="wt1">3 min</div></div>
+        <div class="wuitems">
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>Hip circles (rotación de cadera) — 10 repeticiones por lado</div>
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>Glute bridge bilateral — 15 repeticiones</div>
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>Dead bug — 6 repeticiones por lado, lento</div>
+        </div>
+      </div>
+      <div class="wublock">
+        <div class="wuhdr"><div class="wustep" id="ws2">B</div><div class="wutitle">Movilidad</div><div class="wutime" id="wt2">3 min</div></div>
+        <div class="wuitems">
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>Squat to stand — 8 repeticiones</div>
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>Rotación torácica en cuadrupedia — 8 repeticiones por lado</div>
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>Ankle circles — 10 repeticiones por lado</div>
+        </div>
+      </div>
+      <div class="wublock">
+        <div class="wuhdr"><div class="wustep" id="ws3">C</div><div class="wutitle">Potenciación</div><div class="wutime" id="wt3">2 min</div></div>
+        <div class="wuitems">
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>Jump squat o squat explosivo — 6-8 reps</div>
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>Face pull simulado / rotación externa — 12 reps</div>
+        </div>
+      </div>
+      <div class="wublock">
+        <div class="wuhdr"><div class="wustep" id="ws4">D</div><div class="wutitle">Series de aproximación</div><div class="wutime" id="wt4">2-4 min</div></div>
+        <div class="wuitems">
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>Solo para el 1er ejercicio de la sesión</div>
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>Barra vacía (15 kg) × 10 reps</div>
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>50% de la carga objetivo × 5 reps</div>
+          <div class="wuitem" onclick="toggleWu(this)"><div class="wuchk">✓</div>75% de la carga objetivo × 3 reps</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL: PROGRESIÓN -->
+    <div id="p-progression" class="panel">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.65">Árbol de decisión semanal según cómo fue la sesión.</p>
+      <div class="pc" style="border-color:rgba(52,211,153,.3)"><div class="prow"><div class="picon" style="background:rgba(52,211,153,.08);color:#34D399">✓</div><div class="pbody"><div class="pcond">Si completé rango SUPERIOR con RPE 7 o menos</div><div class="pact" style="color:#34D399">+5 kg próxima sesión</div></div></div></div>
+      <div class="pc" style="border-color:rgba(251,191,36,.3)"><div class="prow"><div class="picon" style="background:rgba(251,191,36,.08);color:#FBBF24">~</div><div class="pbody"><div class="pcond">Si completé pero RPE fue 8 en las últimas series</div><div class="pact" style="color:#FBBF24">+1-2 reps a 2-3 series (mismo peso)</div></div></div></div>
+      <div class="pc" style="border-color:rgba(248,113,113,.3)"><div class="prow"><div class="picon" style="background:rgba(248,113,113,.08);color:#F87171">✗</div><div class="pbody"><div class="pcond">Si no llegué al rango inferior (RPE 9+)</div><div class="pact" style="color:#F87171">Repetir sesión igual, aumentar descanso</div></div></div></div>
+      <div class="pc" style="border-color:rgba(167,139,250,.3)"><div class="prow"><div class="picon" style="background:rgba(167,139,250,.08);color:#A78BFA">T</div><div class="pbody"><div class="pcond">Si llegué al techo de 90 kg en barra</div><div class="pact" style="color:#A78BFA">Microprogresión: tempo más lento o pausa</div></div></div></div>
+      <div class="pc" style="border-color:rgba(96,165,250,.3)"><div class="prow"><div class="picon" style="background:rgba(96,165,250,.08);color:#60A5FA">−</div><div class="pbody"><div class="pcond">Si sin mejora en 3 semanas consecutivas</div><div class="pact" style="color:#60A5FA">Deload 1 semana al 50-60%</div></div></div></div>
+      <div class="microcard">
+        <div class="microtitle">Microprogresión sin añadir 5 kg</div>
+        <div class="mi"><div class="midot"></div><div><b>Más reps:</b> Rango 8-10: empieza en 8. Sube hasta 10 en sem. 3-4. Solo entonces sube carga.</div></div>
+        <div class="mi"><div class="midot"></div><div><b>Tempo más lento:</b> 3-0-1-0 → 4-0-1-0. Misma carga, mayor estímulo por TUT.</div></div>
+        <div class="mi"><div class="midot"></div><div><b>Reducir descanso:</b> De 90s a 75s entre series. Mayor densidad sin tocar la carga.</div></div>
+        <div class="mi"><div class="midot"></div><div><b>Pausa isométrica:</b> 1-2s en punto de máxima tensión. Elimina el rebote.</div></div>
+        <div class="mi"><div class="midot"></div><div><b>Más series:</b> Pasar de 4 a 5 series con misma carga si RPE está por debajo de 7 (F2→F3).</div></div>
+      </div>
+    </div>
+
+    <!-- PANEL: TÉCNICA -->
+    <div id="p-technique" class="panel">
+      <div class="techpills">
+        <button class="tpill" data-t="floor" onclick="setTech('floor')">Floor Press</button>
+        <button class="tpill" data-t="zercher" onclick="setTech('zercher')">Zercher Squat</button>
+        <button class="tpill" data-t="deadlift" onclick="setTech('deadlift')">Deadlift</button>
+        <button class="tpill" data-t="front" onclick="setTech('front')">Front Squat</button>
+      </div>
+      <div id="techcontent"></div>
+    </div>
+
+    <!-- PANEL: REGISTRO -->
+    <div id="p-registro" class="panel">
+      <div class="reg-summary">
+        <div class="reg-stat"><div class="reg-stat-lbl">Vol. sesión</div><div class="reg-stat-val" id="reg-vol-sess">—</div><div class="reg-stat-unit">kg·rep</div></div>
+        <div class="reg-stat"><div class="reg-stat-lbl">Series</div><div class="reg-stat-val" id="reg-sets-done">0</div><div class="reg-stat-unit">de <span id="reg-sets-total">0</span></div></div>
+        <div class="reg-stat"><div class="reg-stat-lbl">Vol. semana</div><div class="reg-stat-val" id="reg-vol-week">—</div><div class="reg-stat-unit">kg·rep total</div></div>
+        <div class="reg-stat"><div class="reg-stat-lbl">Intensidad</div><div class="reg-stat-val" id="reg-rpe-avg">—</div><div class="reg-stat-unit">RPE medio</div></div>
+        <div class="reg-stat"><div class="reg-stat-lbl">Semana</div><div class="reg-stat-val" id="reg-week-num">—</div><div class="reg-stat-unit">del ciclo</div></div>
+        <div class="reg-stat"><div class="reg-stat-lbl">Completado</div><div class="reg-stat-val" id="reg-pct-done">0%</div><div class="reg-stat-unit">esta sesión</div></div>
+      </div>
+      <div class="reg-chart-container">
+        <div class="reg-chart-title">Evolución Volumen por Semana</div>
+        <canvas id="volChart" style="width:100%;display:block"></canvas>
+      </div>
+      <div id="reg-list"></div>
+      <div class="reg-actions">
+        <button class="btn-outline" onclick="exportCSV()">Exportar CSV</button>
+        <button class="btn-danger" onclick="clearData()">Reiniciar Datos</button>
+      </div>
+    </div>
+
+    <!-- PANEL: NUTRICIÓN -->
+    <div id="p-nutricion" class="panel">
+      <div class="nut-intro">Plan nutricional adaptado a tu perfil: 75 kg, 3 sesiones/semana, objetivo de hipertrofia y optimización hormonal.</div>
+
+      <div class="nut-section-title">Calorías y Macros</div>
+      <div class="nut-macro-grid">
+        <div class="nut-macro">
+          <div class="nut-macro-lbl">Calorías objetivo</div>
+          <div class="nut-macro-val" style="color:#38BDF8">2.700</div>
+          <div class="nut-macro-unit">kcal/día</div>
+          <div class="nut-macro-note">+250-400 kcal sobre TDEE (~2.400-2.600). Superávit moderado.</div>
+        </div>
+        <div class="nut-macro">
+          <div class="nut-macro-lbl">Proteína</div>
+          <div class="nut-macro-val" style="color:#34D399">150</div>
+          <div class="nut-macro-unit">g/día · 2g/kg</div>
+          <div class="nut-macro-note">Pollo, huevos, pescado, carne magra, lácteos. 4-5 tomas/día.</div>
+        </div>
+        <div class="nut-macro">
+          <div class="nut-macro-lbl">Carbohidratos</div>
+          <div class="nut-macro-val" style="color:#FBBF24">338</div>
+          <div class="nut-macro-unit">g/día · 4,5g/kg</div>
+          <div class="nut-macro-note">Arroz, patatas, avena, fruta. Aumentar en días de entreno.</div>
+        </div>
+        <div class="nut-macro">
+          <div class="nut-macro-lbl">Grasas ⚡Clave</div>
+          <div class="nut-macro-val" style="color:#FB923C">75</div>
+          <div class="nut-macro-unit">g/día · 1g/kg</div>
+          <div class="nut-macro-note">NUNCA bajar de 0,8g/kg. Precursoras directas de testosterona.</div>
+        </div>
+      </div>
+      <div style="background:var(--bg2);border:1px solid rgba(251,146,60,.2);border-radius:var(--rs);padding:11px 13px;margin-bottom:6px;font-size:12px;line-height:1.6;color:var(--muted)">
+        ⚡ <b style="color:#FB923C">Zinc (11mg) + Magnesio (400mg)</b> — micronutrientes clave para testosterona y calidad del sueño. Fuentes: carnes rojas, legumbres, frutos secos, espinacas, semillas de calabaza.
+      </div>
+
+      <div class="nut-section-title">Timing Nutricional</div>
+      <div class="nut-timing-card">
+        <div class="nut-timing-row">
+          <div class="nut-timing-icon">🕐</div>
+          <div class="nut-timing-info">
+            <div class="nut-timing-lbl">Pre-entrenamiento · 60-90 min antes</div>
+            <div class="nut-timing-val">30-50g proteína + 60-80g carbohidratos + grasa mínima. Ej: arroz blanco con pollo a la plancha.</div>
+          </div>
+        </div>
+        <div class="nut-timing-row">
+          <div class="nut-timing-icon">🔄</div>
+          <div class="nut-timing-info">
+            <div class="nut-timing-lbl">Post-entrenamiento · dentro de 2h</div>
+            <div class="nut-timing-val">Estructura similar. La ventana anabólica es amplia: lo importante es llegar a las metas diarias totales.</div>
+          </div>
+        </div>
+        <div class="nut-timing-row">
+          <div class="nut-timing-icon">🌙</div>
+          <div class="nut-timing-info">
+            <div class="nut-timing-lbl">Antes de dormir</div>
+            <div class="nut-timing-val">30-40g proteína de digestión lenta: requesón, queso cottage, yogur griego. Síntesis proteica nocturna.</div>
+          </div>
+        </div>
+        <div class="nut-timing-row">
+          <div class="nut-timing-icon">💧</div>
+          <div class="nut-timing-info">
+            <div class="nut-timing-lbl">Hidratación</div>
+            <div class="nut-timing-val">Mínimo 3L/día. La deshidratación leve (−2%) reduce el rendimiento hasta un 8-10% y suprime la testosterona.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nut-section-title">Sueño — Palanca Principal de Testosterona</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.65;padding:11px 13px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rs)">
+        El 95% de la testosterona diaria se produce durante el sueño profundo (fases 3-4 NREM). Pasar de 6-7h a 7-8h puede aumentar los niveles hasta un <b style="color:var(--text)">15-20%</b>.
+      </div>
+      <div class="sleep-grid">
+        <div class="sleep-card"><div class="sleep-card-icon">🕰️</div><div class="sleep-card-title">Consistencia</div><div class="sleep-card-text">Misma hora de acostarse y despertar ±30 min, incluso fines de semana. Regula el ritmo circadiano.</div></div>
+        <div class="sleep-card"><div class="sleep-card-icon">🌑</div><div class="sleep-card-title">Oscuridad total</div><div class="sleep-card-text">Sin pantallas 45 min antes de dormir. La luz suprime melatonina y altera el eje HPT.</div></div>
+        <div class="sleep-card"><div class="sleep-card-icon">❄️</div><div class="sleep-card-title">Temperatura 18-20°C</div><div class="sleep-card-text">Habitación fresca = mayor producción de GH y testosterona durante sueño profundo.</div></div>
+        <div class="sleep-card"><div class="sleep-card-icon">🚫</div><div class="sleep-card-title">No entrenar tarde</div><div class="sleep-card-text">Evitar sesiones a menos de 3h antes de dormir. El cortisol post-ejercicio antagoniza la testosterona.</div></div>
+      </div>
+
+      <div class="nut-section-title">Factores Conductuales</div>
+      <div class="nut-timing-card">
+        <div class="nut-timing-row"><div class="nut-timing-icon">☀️</div><div class="nut-timing-info"><div class="nut-timing-lbl">Exposición solar</div><div class="nut-timing-val">15-30 min de sol directo al mediodía. La vitamina D3 es cofactor directo de síntesis de testosterona.</div></div></div>
+        <div class="nut-timing-row"><div class="nut-timing-icon">🧘</div><div class="nut-timing-info"><div class="nut-timing-lbl">Gestión del estrés</div><div class="nut-timing-val">El cortisol crónico inhibe la testosterona. Respiración diafragmática, tiempo en naturaleza, desconexión digital.</div></div></div>
+        <div class="nut-timing-row"><div class="nut-timing-icon">🍺</div><div class="nut-timing-info"><div class="nut-timing-lbl">Alcohol</div><div class="nut-timing-val">Máximo 1-2 consumiciones por semana. El alcohol agudo reduce la testosterona hasta 24h y aumenta la conversión a estrógeno.</div></div></div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /app-layout -->
+
+<!-- MOBILE BOTTOM NAV -->
+<div id="mobile-nav">
+  <button class="mnb" onclick="setTab('session')"><span class="mnb-icon">🏋️</span><span class="mnb-lbl">Sesión</span></button>
+  <button class="mnb" onclick="setTab('warmup')"><span class="mnb-icon">🔥</span><span class="mnb-lbl">Calentam.</span></button>
+  <button class="mnb" onclick="setTab('progression')"><span class="mnb-icon">📈</span><span class="mnb-lbl">Progresión</span></button>
+  <button class="mnb" onclick="setTab('technique')"><span class="mnb-icon">📋</span><span class="mnb-lbl">Técnica</span></button>
+  <button class="mnb" onclick="setTab('registro')"><span class="mnb-icon">📊</span><span class="mnb-lbl">Registro</span></button>
+  <button class="mnb" onclick="setTab('nutricion')"><span class="mnb-icon">🥗</span><span class="mnb-lbl">Nutrición</span></button>
+</div>
+
+<script>
+(function(){'use strict';
+// ─── DATOS DEL PLAN ──────────────────────────────────────────────────────────
+var PH=[
+  {id:1,name:"Fase 1",label:"Reacondicionamiento",weeks:[1,2,3,4],rpe:"6-7",color:"#38BDF8",bg:"rgba(56,189,248,0.1)"},
+  {id:2,name:"Fase 2",label:"Acumulación",weeks:[5,6,7,8],rpe:"7-8",color:"#34D399",bg:"rgba(52,211,153,0.1)"},
+  {id:3,name:"Fase 3",label:"Intensificación",weeks:[9,10,11,12],rpe:"8-9",color:"#FB923C",bg:"rgba(251,146,60,0.1)"}
+];
+var SF={A:"Empuje + Pierna (Cuádriceps)",B:"Tirón + Posterior / Bisagra",C:"Full Body + Unilateral + Core",D:"Complementaria (Opcional)"};
+var SD={A:{1:"~48 min",2:"~55 min",3:"~58 min"},B:{1:"~50 min",2:"~55 min",3:"~60 min"},C:{1:"~52 min",2:"~58 min",3:"~60 min"},D:{1:"~40 min",2:"~42 min",3:"~44 min"}};
+var EX={1:{A:[],B:[],C:[],D:[]},2:{A:[],B:[],C:[],D:[]},3:{A:[],B:[],C:[],D:[]}};
+
+// FASE 1
+EX[1].A=[
+  {n:"Zercher Squat",s:"4",r:"8-10",kg:"50-65",init:"50 kg (sem 1)",rpe:"6-7",rest:"90",tempo:"3-0-1-0",cue:"Codos bajo barra, espalda recta, profundidad controlada. En fallo: soltar la barra al suelo frente a ti."},
+  {n:"Floor Press",s:"4",r:"8-10",kg:"55-70",init:"55 kg (sem 1)",rpe:"6-7",rest:"90",tempo:"3-0-1-0",cue:"Codos a 45°. Pausa 1s cuando los codos toquen el suelo. En fallo: rodar la barra hacia el abdomen."},
+  {n:"OHP de pie",s:"3",r:"10-12",kg:"35-50",init:"35 kg (sem 1)",rpe:"6-7",rest:"75",tempo:"2-0-1-1",cue:"Glúteos y core contraídos. Sin extensión lumbar. Cargar desde hang clean al inicio de cada serie."},
+  {n:"Romanian Deadlift",s:"3",r:"12",kg:"50-65",init:"50 kg (sem 1)",rpe:"6",rest:"75",tempo:"3-0-1-0",cue:"Bisagra de cadera pura. Rodillas ligeramente flexionadas. Sentir estiramiento isquiotibial en la bajada."},
+  {n:"Push-up Decline",s:"2",r:"12-15",kg:"Corporal",init:null,rpe:"6",rest:"60",tempo:"3-0-1-0",cue:"Pies elevados 40 cm en silla. Codos a 45° del torso. Bajar en 3s, subir en 1s."}
+];
+EX[1].B=[
+  {n:"Deadlift Convencional",s:"4",r:"5",kg:"70-85",init:"70 kg (sem 1)",rpe:"6-7",rest:"120",tempo:"1-0-2-0",cue:"Cadera abajo, pecho arriba, barra sobre espinillas. Empujar el suelo con los pies. Series de aproximación obligatorias."},
+  {n:"Bent-over Row",s:"4",r:"8-10",kg:"55-70",init:"55 kg (sem 1)",rpe:"7",rest:"90",tempo:"2-0-1-1",cue:"Torso a 45°. Pausa 1s apretando el dorsal en el pecho. Control total en la bajada."},
+  {n:"Push Press",s:"3",r:"8",kg:"45-60",init:"45 kg (sem 1)",rpe:"7",rest:"90",tempo:"Explosivo",cue:"Dip-drive-press. Concéntrico explosivo. Cargar a hombros desde hang clean antes de cada serie."},
+  {n:"Good Morning",s:"3",r:"12",kg:"30-45",init:"30 kg (sem 1)",rpe:"6",rest:"75",tempo:"3-0-1-0",cue:"Bisagra de cadera pura. Rodillas flexionadas ~15°. Carga baja, técnica perfecta. Sin hiperextensión lumbar."},
+  {n:"Hollow Body Hold",s:"3",r:"25-30s",kg:"—",init:null,rpe:"6",rest:"60",tempo:"Isométrico",cue:"Lumbar pegada al suelo. Brazos extendidos arriba. Si es difícil: brazos a los costados. Core profundo activado."}
+];
+EX[1].C=[
+  {n:"Front Squat (desde limpio)",s:"3",r:"6-8",kg:"40-55",init:"40 kg (sem 1)",rpe:"6",rest:"90",tempo:"3-0-1-0",cue:"Codos arriba siempre. Muñecas abiertas o agarre cruzado. Profundidad controlada. Prioridad: técnica."},
+  {n:"Floor Press Agarre Estrecho",s:"3",r:"10-12",kg:"50-65",init:"50 kg (sem 1)",rpe:"6-7",rest:"75",tempo:"3-0-1-0",cue:"28-32 cm entre manos. Énfasis en tríceps. Codos más cerrados al torso que en el press normal."},
+  {n:"Pendlay Row",s:"4",r:"6-8",kg:"60-70",init:"60 kg (sem 1)",rpe:"7",rest:"90",tempo:"Explosivo-2-0",cue:"Barra parte del suelo cada rep. Torso horizontal. Jale explosivo al abdomen. Reset completo entre reps."},
+  {n:"Split Squat Búlgaro",s:"3",r:"10 c/lado",kg:"20-30 kg",init:"20 kg (sem 1)",rpe:"7",rest:"75",tempo:"3-0-1-0",cue:"Pie trasero en silla ~40 cm. Rodilla delantera no sobrepasa la punta del pie. Bajar en 3s."},
+  {n:"Dead Bug",s:"3",r:"8 c/lado",kg:"—",init:null,rpe:"5",rest:"60",tempo:"Lento",cue:"Lumbar en el suelo en todo momento. Extender brazo y pierna opuestos. Respiración controlada."}
+];
+EX[1].D=[
+  {n:"Romanian Deadlift",s:"3",r:"12",kg:"50-65",init:"50 kg (sem 1)",rpe:"6",rest:"75",tempo:"3-0-1-0",cue:"Técnica como prioridad absoluta. RPE máximo 6 en todo."},
+  {n:"OHP de pie",s:"3",r:"10",kg:"40-50",init:"40 kg (sem 1)",rpe:"6",rest:"75",tempo:"2-0-1-1",cue:"Técnica limpia. Sin extensión lumbar excesiva al subir la barra."},
+  {n:"Bent-over Row",s:"3",r:"10",kg:"55-65",init:"55 kg (sem 1)",rpe:"6",rest:"75",tempo:"2-0-1-1",cue:"Volumen extra a intensidad reducida. Pausa 1s en pecho."},
+  {n:"Zercher Squat",s:"3",r:"8",kg:"50-60",init:"50 kg (sem 1)",rpe:"6",rest:"90",tempo:"3-0-1-0",cue:"Sesión de técnica y volumen. RPE máximo 6 en todo."},
+  {n:"Plank Frontal",s:"3",r:"45s",kg:"—",init:null,rpe:"5",rest:"60",tempo:"Isométrico",cue:"Cadera neutra, no elevar ni hundir. Core activo. Respiración normal."}
+];
+
+// FASE 2
+EX[2].A=[
+  {n:"Zercher Squat",s:"4",r:"10-12",kg:"65-78",init:"65 kg (sem 5)",rpe:"7-8",rest:"90",tempo:"3-0-1-1",cue:"Añadir 5 kg cuando completes 4×12 a RPE ≤7. Si no: +1-2 reps por serie."},
+  {n:"Floor Press",s:"4",r:"8-10",kg:"70-83",init:"70 kg (sem 5)",rpe:"7-8",rest:"90",tempo:"3-0-1-0",cue:"Si límite de carga: reducir descanso a 75s o añadir pausa 2s abajo para microprogresión."},
+  {n:"OHP de pie",s:"4",r:"8-10",kg:"48-60",init:"48 kg (sem 5)",rpe:"7-8",rest:"90",tempo:"2-0-1-1",cue:"4 series (antes eran 3). Incremento de volumen respecto Fase 1. Core estricto."},
+  {n:"Romanian Deadlift",s:"4",r:"10-12",kg:"62-75",init:"62 kg (sem 5)",rpe:"7",rest:"75",tempo:"3-1-1-0",cue:"Pausa 1s abajo = máximo estiramiento isquiotibial. Aumenta el tiempo bajo tensión (TUT)."},
+  {n:"Push-up con lastre",s:"3",r:"10-12",kg:"Corporal+5kg",init:null,rpe:"7-8",rest:"60",tempo:"3-0-1-0",cue:"Placa sobre la espalda baja. Si no es posible: +5 reps respecto a la Fase 1."}
+];
+EX[2].B=[
+  {n:"Deadlift Convencional",s:"4",r:"4-5",kg:"77-88",init:"77 kg (sem 5)",rpe:"7-8",rest:"120",tempo:"1-0-2-0",cue:"Semana 5: test submáximo de referencia. Carga máxima disponible cerca del techo de 90 kg."},
+  {n:"Bent-over Row",s:"4",r:"8-10",kg:"65-78",init:"65 kg (sem 5)",rpe:"7-8",rest:"90",tempo:"2-0-2-1",cue:"Pausa 1s en pecho + excéntrico controlado 2s. Alta activación de dorsal y romboides."},
+  {n:"Push Press",s:"3",r:"6-8",kg:"57-70",init:"57 kg (sem 5)",rpe:"7-8",rest:"90",tempo:"Explosivo",cue:"Explosividad máxima en la fase concéntrica. Cargar desde hang clean al inicio de cada serie."},
+  {n:"Good Morning",s:"3",r:"10-12",kg:"42-55",init:"42 kg (sem 5)",rpe:"7",rest:"75",tempo:"3-0-1-0",cue:"Aumentar carga solo si la técnica es perfecta. Crítico para la cadena posterior."},
+  {n:"L-Sit / Tuck Hold",s:"3",r:"20-30s",kg:"—",init:null,rpe:"7",rest:"60",tempo:"Isométrico",cue:"Manos en el suelo, codos extendidos. Progresión: Tuck (rodillas al pecho) → L-Sit completo."}
+];
+EX[2].C=[
+  {n:"Front Squat (desde limpio)",s:"4",r:"6-8",kg:"52-65",init:"52 kg (sem 5)",rpe:"7",rest:"90",tempo:"3-0-1-0",cue:"4 series. Profundidad completa si la movilidad lo permite. Codos elevados en todo el recorrido."},
+  {n:"Floor Press Agarre Estrecho",s:"3",r:"10-12",kg:"62-72",init:"62 kg (sem 5)",rpe:"7-8",rest:"75",tempo:"3-2-1-0",cue:"Pausa 2s en el pecho para maximizar TUT. Rango de movimiento completo."},
+  {n:"Pendlay Row",s:"4",r:"6-8",kg:"68-80",init:"68 kg (sem 5)",rpe:"7-8",rest:"90",tempo:"Explosivo-2-0",cue:"Control excéntrico 2s. Explosivo en concéntrico. Cada rep desde el suelo sin rebote."},
+  {n:"Split Squat Búlgaro",s:"4",r:"10-12 c/lado",kg:"28-40 kg",init:"28 kg (sem 5)",rpe:"7-8",rest:"75",tempo:"3-0-1-0",cue:"4 series. Paso largo para mayor activación glútea. Segunda placa si hay disponible."},
+  {n:"Ab Wheel / Barbell Rollout",s:"3",r:"10-12",kg:"—",init:null,rpe:"7",rest:"60",tempo:"3-0-1-0",cue:"Desde rodillas. Extender lento 3s, volver explosivo. Lumbar no debe caer en arco."}
+];
+EX[2].D=[
+  {n:"Romanian Deadlift",s:"3",r:"12",kg:"62-72",init:"62 kg (sem 5)",rpe:"7",rest:"75",tempo:"3-1-1-0",cue:"Carga igual o menor a sesión B2. Complemento de tirón posterior."},
+  {n:"OHP de pie",s:"3",r:"10",kg:"48-58",init:"48 kg (sem 5)",rpe:"7",rest:"75",tempo:"2-0-1-1",cue:"Volumen extra de empuje vertical. Técnica limpia."},
+  {n:"Bent-over Row",s:"3",r:"10",kg:"65-72",init:"65 kg (sem 5)",rpe:"7",rest:"75",tempo:"2-0-1-1",cue:"Tirón horizontal complementario. Pausa 1s en pecho."},
+  {n:"Zercher Squat",s:"3",r:"10",kg:"65-72",init:"65 kg (sem 5)",rpe:"7",rest:"90",tempo:"3-0-1-1",cue:"Pierna cuádriceps dominante. Ligero respecto a sesión A2."},
+  {n:"Plank Lateral",s:"3",r:"30s c/lado",kg:"—",init:null,rpe:"6",rest:"60",tempo:"Isométrico",cue:"Cadera elevada. Cuerpo en línea recta. No compensar con el hombro."}
+];
+
+// FASE 3
+EX[3].A=[
+  {n:"Zercher Squat",s:"5",r:"4-6",kg:"75-88",init:"75 kg (sem 9)",rpe:"8-9",rest:"120",tempo:"4-1-1-0",cue:"Formato 5×5. Carga máxima del ciclo. Si superas 88 kg: microprogresión con tempo más lento."},
+  {n:"Floor Press",s:"5",r:"4-6",kg:"75-88",init:"75 kg (sem 9)",rpe:"8-9",rest:"120",tempo:"3-0-1-0",cue:"5×5. Meta final: 88 kg. Practicar rollout de seguridad con 50 kg antes de la sesión."},
+  {n:"OHP de pie",s:"3",r:"6-8",kg:"55-68",init:"55 kg (sem 9)",rpe:"8",rest:"90",tempo:"2-1-1-0",cue:"Menor volumen, mayor intensidad. Pausa breve arriba antes de bajar."},
+  {n:"Romanian Deadlift",s:"3",r:"10",kg:"70-83",init:"70 kg (sem 9)",rpe:"7-8",rest:"90",tempo:"3-1-1-0",cue:"Mantener calidad sobre cantidad. No descender carga respecto a Fase 2."},
+  {n:"Push-up Lento",s:"3",r:"8-10",kg:"Corporal",init:null,rpe:"8",rest:"60",tempo:"5-0-1-0",cue:"5s de bajada. Máxima tensión muscular con peso corporal. Alternativa premium al press banca."}
+];
+EX[3].B=[
+  {n:"Deadlift Convencional",s:"4",r:"3-4",kg:"82-90",init:"82 kg (sem 9)",rpe:"8-9",rest:"150",tempo:"1-0-2-0",cue:"Sem 9: test submáximo. Sem 12: máximas reps con 85-90 kg. Comparar con tests anteriores."},
+  {n:"Bent-over Row",s:"4",r:"6-8",kg:"72-83",init:"72 kg (sem 9)",rpe:"8",rest:"90",tempo:"2-0-3-1",cue:"Excéntrico 3s + pausa 1s en pecho. Máxima activación dorsal y romboides."},
+  {n:"Push Press",s:"3",r:"5-6",kg:"65-78",init:"65 kg (sem 9)",rpe:"8",rest:"90",tempo:"Explosivo",cue:"Potencia máxima. Cada rep desde posición de rack en hombros. No usar inercia extra."},
+  {n:"Good Morning",s:"3",r:"10",kg:"50-58",init:"50 kg (sem 9)",rpe:"7-8",rest:"75",tempo:"3-0-1-0",cue:"Estabilizador de cadena posterior. Mantener calidad. No llegar al fallo nunca."},
+  {n:"Hollow Body + Dead Bug",s:"3",r:"30s c/u",kg:"—",init:null,rpe:"7",rest:"60",tempo:"Circuito",cue:"Sin descanso: Hollow Body 30s, luego Dead Bug 30s = 1 ronda completa."}
+];
+EX[3].C=[
+  {n:"Front Squat (desde limpio)",s:"4",r:"5-6",kg:"62-75",init:"62 kg (sem 9)",rpe:"8",rest:"100",tempo:"3-0-1-0",cue:"Carga alta, técnica crítica. Si la movilidad falla: reducir 5 kg y corregir primero."},
+  {n:"Floor Press Agarre Estrecho",s:"3",r:"8-10",kg:"65-78",init:"65 kg (sem 9)",rpe:"8",rest:"75",tempo:"3-2-1-0",cue:"Pausa 2s en el pecho. Máxima activación tricipital. Explosivo al subir."},
+  {n:"Pendlay Row",s:"4",r:"5-6",kg:"75-88",init:"75 kg (sem 9)",rpe:"8-9",rest:"90",tempo:"Explosivo-2-0",cue:"Cargas máximas del ciclo. Explosividad concéntrica total. Control excéntrico 2s."},
+  {n:"Split Squat Búlgaro",s:"3",r:"8-10 c/lado",kg:"38-50 kg",init:"38 kg (sem 9)",rpe:"8",rest:"90",tempo:"3-0-1-0",cue:"Carga máxima de este movimiento. Paso largo. Glúteo activo en toda la bajada."},
+  {n:"Ab Wheel / Rollout",s:"3",r:"12-15",kg:"—",init:null,rpe:"8",rest:"60",tempo:"3-0-1-0",cue:"Desde pies si la lumbar lo permite. Sino, desde rodillas con extensión máxima."}
+];
+EX[3].D=[
+  {n:"Romanian Deadlift",s:"3",r:"10",kg:"70-80",init:"70 kg (sem 9)",rpe:"7",rest:"75",tempo:"3-1-1-0",cue:"Deload parcial del deadlift convencional. Complemento posterior."},
+  {n:"OHP de pie",s:"3",r:"8",kg:"55-65",init:"55 kg (sem 9)",rpe:"7-8",rest:"75",tempo:"2-0-1-1",cue:"Ligero respecto a sesión A3. Volumen de empuje vertical."},
+  {n:"Bent-over Row",s:"3",r:"8",kg:"70-78",init:"70 kg (sem 9)",rpe:"7",rest:"75",tempo:"2-0-2-1",cue:"Mantenimiento de volumen de tirón. No llegar al fallo."},
+  {n:"Zercher Squat",s:"3",r:"6",kg:"75-83",init:"75 kg (sem 9)",rpe:"7-8",rest:"90",tempo:"4-1-1-0",cue:"Volumen complementario. Ligero respecto a A3."},
+  {n:"Plank+Lateral+Dead Bug",s:"2 rondas",r:"40s c/u",kg:"—",init:null,rpe:"6",rest:"45",tempo:"Circuito",cue:"Plank frontal 40s, Lateral D 40s, Lateral I 40s, Dead Bug 40s = 1 ronda."}
+];
+
+// TÉCNICA
+var TECH={
+  floor:{icon:"🏋️",name:"Floor Press",steps:["Tumbarse con la barra cargada en el suelo. Colocarse bajo la barra hasta que quede sobre el pecho.","Piernas extendidas o rodillas dobladas — flexionadas = mayor activación pectoral.","Agarre ligeramente más ancho que los hombros. Codos a 45° del torso.","Descender controlado en 3 segundos hasta que los codos toquen el suelo.","Pausa 1 segundo en el suelo: elimina el rebote y aumenta el tiempo bajo tensión.","Empujar explosivo hacia arriba. Bloquear codos al final."],safety:"En fallo: inclinar levemente la barra hacia un lado y rodarla sobre el abdomen hacia las caderas. Es imposible quedar atrapado bajo la barra."},
+  zercher:{icon:"⚡",name:"Zercher Squat",steps:["Barra en el suelo. Acuclillarse e insertar los codos bajo la barra hasta que descanse en el pliegue del codo.","Pies a anchura de hombros o ligeramente más separados. Puntas a 15-30° hacia afuera.","Mantener el torso erguido, codos unidos frente al pecho durante todo el movimiento.","Descender controlado hasta paralelo o más profundo según movilidad disponible.","Empujar el suelo con los talones y subir manteniendo codos a la altura del esternón."],safety:"En fallo: simplemente soltar la barra hacia el suelo frente a ti. Practicar el dump sin carga primero. Usar calcetines gruesos en los codos las primeras semanas."},
+  deadlift:{icon:"🔱",name:"Deadlift",steps:["Barra centrada sobre los pies a mitad del pie. Pies a anchura de caderas. Puntas neutras o ligeramente abiertas.","Flexionar rodillas, empujar caderas atrás. Agarrar la barra con doble pronado o mixto para cargas altas.","Pecho arriba, mirada al frente unos 15° abajo. Hombros ligeramente delante de la barra.","Inhalar profundo, crear presión abdominal (Valsalva parcial), tensar todo el cuerpo antes de jalar.","Jalar EMPUJANDO EL SUELO con los pies. La barra sigue la línea vertical de las espinillas.","Al pasar las rodillas: extender caderas y erguirse completamente. Caderas y hombros suben al mismo ritmo."],safety:"Nunca redondear la zona lumbar con cargas altas. Si pierdes la posición en cualquier repetición, termina la serie inmediatamente."},
+  front:{icon:"🔷",name:"Front Squat",steps:["Realizar un power clean o hang clean para llevar la barra a los hombros desde el suelo.","Posición de rack: codos elevados al frente, barra descansando sobre los deltoides.","Agarre de muñecas abiertas o cruzadas. Codos apuntando al frente, SIEMPRE arriba.","Pies a anchura de hombros o ligeramente más. Puntas a 20-30°.","Descender manteniendo los codos ARRIBA en todo momento. Si los codos bajan, la barra caerá hacia adelante.","Subir empujando el suelo, manteniendo el torso completamente vertical."],safety:"Si fallas: inclinar hacia adelante y empujar la barra al suelo. Practicar el dump sin carga antes de usar cargas altas."}
+};
+
+// TEST WEEKS (semanas 4, 8, 9, 12)
+var TM={
+  4:{badge:"Fin de Fase 1 — Test de referencia",title:"Semana de Test",sub:"Sesiones A, B y C al 80% de la carga. El test se hace al final de la semana en sesión B o por separado.",how:[{icon:"🔥",title:"Cómo ejecutar el test",steps:["Calentamiento completo (protocolo habitual de 8-12 min).","Series de aproximación: barra vacía ×10, 50% ×5, 70% ×3.","Elegir una carga con la que puedas hacer entre 5 y 10 reps (~75-80 kg en Deadlift, ~65-70 kg en Floor Press).","Hacer las máximas reps posibles parando a RPE 9 (1-2 reps en reserva, NO al fallo total).","Anotar: ejercicio / kg / número de reps."]},{icon:"📐",title:"Calcular el 1RM estimado",formula:true}],measure:{title:"Qué medir esta semana",items:[["Peso corporal","En ayunas, misma hora"],["Perímetro brazo","Bíceps flexionado, en cm"],["Perímetro cintura","A nivel del ombligo"],["Bienestar 1-5","Sueño / Energía / Ánimo"]]}},
+  8:{badge:"Fin de Fase 2 — Test de comparación",title:"Semana de Test",sub:"Sesiones al 80% de carga. El test se realiza con el máximo descanso previo posible.",how:[{icon:"🔥",title:"Cómo ejecutar el test",steps:["Calentamiento completo. Series de aproximación idénticas al test de Semana 4.","Usar la misma carga que en Semana 4 para comparación directa.","Si en Sem 4 hiciste 75 kg ×8 reps, intentar esa misma carga y ver cuántas reps haces ahora.","Alternativa: subir 5 kg respecto a Sem 4 si te sientes claramente más fuerte.","Anotar: ejercicio / kg / reps. Calcular 1RM con la misma fórmula."]},{icon:"📊",title:"Cómo interpretar la comparación",steps:["Comparar el 1RM estimado de hoy con el de Semana 4.","Una mejora del 5-10% en 4 semanas es muy buena. Menos del 5% sigue siendo progreso real.","Si el 1RM bajó: revisar sueño y nutrición de las últimas 2 semanas antes de preocuparse.","Si el brazo subió y la cintura se mantuvo = ganancia muscular limpia."]}],measure:{title:"Qué medir esta semana",items:[["Peso corporal","Comparar con Sem 4"],["Perímetro brazo","Comparar con Sem 4"],["Perímetro cintura","Comparar con Sem 4"],["Bienestar 1-5","Sueño / Energía / Ánimo"]]}},
+  9:{badge:"Inicio Fase 3 — Test submáximo",title:"Semana de Test",sub:"Primera semana de Fase 3. Formato 5×5 y test submáximo para calibrar cargas de intensificación.",how:[{icon:"🔥",title:"Cómo ejecutar el test de Semana 9",steps:["Calentamiento completo. Series de aproximación estándar.","Usar la misma carga del test de Semana 8 o 5% más si te sentiste fuerte.","Hacer máximas reps posibles en Deadlift y Floor Press, parando a RPE 9.","Anotar kg × reps. Calcular 1RM con la fórmula de Brzycki.","Comparar con Semanas 4 y 8 para ver la evolución total."]},{icon:"📐",title:"Calcular el 1RM estimado",formula:true}],measure:{title:"Qué medir esta semana",items:[["Peso corporal","Comparar con Sem 1, 4 y 8"],["Perímetro brazo","Comparar con Sem 4 y 8"],["Perímetro cintura","Comparar con Sem 4 y 8"],["Bienestar 1-5","Sueño / Energía / Ánimo"]]}},
+  12:{badge:"Fin del ciclo — Test final",title:"Semana Final",sub:"Sesiones al 80% para llegar al test con energía máxima. El test es la última sesión de la semana.",how:[{icon:"🏆",title:"Cómo ejecutar el test final",steps:["Calentamiento completo. Series de aproximación estándar.","Usar la carga máxima disponible que permita 3-6 reps limpias (85-90 kg en Deadlift si se llegó hasta ahí).","Hacer máximas reps posibles con técnica perfecta. Parar al primer fallo técnico.","Calcular 1RM con la fórmula. Comparar con Semanas 4, 8 y 9.","Anotar todo: kg, reps, 1RM estimado, diferencia porcentual respecto al inicio."]},{icon:"📈",title:"Interpretación de resultados",steps:["Mejora del 15-25% en 1RM estimado en 12 semanas: resultado excelente para un reentrenamiento.","Mejora del 8-14%: muy bueno. Tejido conectivo y base hormonal han mejorado.","Si el peso subió 2-4 kg y la cintura se mantuvo: ganancia muscular real y limpia."]}],measure:{title:"Medición final completa",items:[["Peso corporal","Comparar con Sem 1, 4, 8 y 9"],["Perímetro brazo","Diferencia total en 12 sem"],["Perímetro cintura","Diferencia total en 12 sem"],["Bienestar 1-5","Evaluación global del ciclo"]]}}
+};
+
+
+// ─── ESTADO & PERSISTENCIA ──────────────────────────────────────────────────
+var DONE=JSON.parse(localStorage.getItem('trainingos_done'))||{};
+var W=parseInt(localStorage.getItem('trainingos_w'))||1;
+var S=localStorage.getItem('trainingos_s')||"A";
+var T=localStorage.getItem('trainingos_t')||"session";
+var TK="floor";
+var SEL_RPE=null;
+
+var _saveTimer=null;
+function saveState(){
+  clearTimeout(_saveTimer);
+  _saveTimer=setTimeout(function(){
+    localStorage.setItem('trainingos_done',JSON.stringify(DONE));
+    localStorage.setItem('trainingos_w',W);
+    localStorage.setItem('trainingos_s',S);
+    localStorage.setItem('trainingos_t',T);
+  },300);
+}
+function _flushSave(){
+  clearTimeout(_saveTimer);
+  localStorage.setItem('trainingos_done',JSON.stringify(DONE));
+  localStorage.setItem('trainingos_w',W);
+  localStorage.setItem('trainingos_s',S);
+  localStorage.setItem('trainingos_t',T);
+}
+
+var timerInt=null,timerTotal=90,timerLeft=90;
+var pendKey=null,pendEx=null,pendSi=null,pendDotEl=null;
+
+// ─── AUDIO ──────────────────────────────────────────────────────────────────
+var _audioCtx=null;
+function _unlockAudio(){
+  if(_audioCtx)return;
+  try{_audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}
+}
+function playBeep(){
+  var ctx=_audioCtx;if(!ctx)return;
+  var doPlay=function(){
+    try{
+      var osc=ctx.createOscillator();osc.type="sine";
+      osc.frequency.setValueAtTime(880,ctx.currentTime);
+      osc.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+0.2);
+    }catch(e){}
+  };
+  if(ctx.state==='suspended'){ctx.resume().then(doPlay).catch(function(){});}
+  else{doPlay();}
+}
+
+function gph(w){var wi=parseInt(w);for(var i=0;i<PH.length;i++){if(PH[i].weeks.indexOf(wi)>=0)return PH[i];}return PH[0];}
+function rpeC(r){
+  var v=parseFloat(r);
+  var isLight=document.documentElement.dataset.theme==="light"||(document.documentElement.dataset.theme===undefined&&window.matchMedia("(prefers-color-scheme:light)").matches);
+  if(isLight){return v<=6.5?"#0D7A55":v<=7.5?"#A05A00":v<=8.5?"#C04010":"#B02020";}
+  return v<=6.5?"#34D399":v<=7.5?"#FBBF24":v<=8.5?"#FB923C":"#F87171";
+}
+function el(id){return document.getElementById(id);}
+function rgb(h){return parseInt(h.slice(1,3),16)+","+parseInt(h.slice(3,5),16)+","+parseInt(h.slice(5,7),16);}
+function fmtVol(v){return v>=1000?(v/1000).toFixed(1)+"k":Math.round(v);}
+
+// ─── TIMER ──────────────────────────────────────────────────────────────────
+function startTimer(secs,name){
+  var ph=gph(W);
+  timerTotal=secs;timerLeft=secs;
+  el("tex").textContent="Descansando tras: "+name;
+  el("tsecs").style.color=ph.color;
+  el("tfg").style.stroke=ph.color;
+  el("tov").classList.add("show");
+  clearInterval(timerInt);
+  updateTimer();
+  timerInt=setInterval(function(){
+    timerLeft--;
+    if(timerLeft<=0){
+      if(navigator.vibrate)navigator.vibrate([200,100,200]);
+      playBeep();stopTimer();return;
+    }
+    updateTimer();
+  },1000);
+}
+function adjTimer(sec){
+  timerLeft+=sec;
+  if(timerLeft<1)timerLeft=1;
+  if(timerLeft>timerTotal)timerTotal=timerLeft;
+  updateTimer();
+}
+function updateTimer(){
+  el("tsecs").textContent=timerLeft;
+  var circ=2*Math.PI*90;
+  el("tfg").style.strokeDasharray=circ;
+  el("tfg").style.strokeDashoffset=circ*(1-timerLeft/timerTotal);
+  if(timerLeft<=10){el("tsecs").style.color="#F87171";el("tfg").style.stroke="#F87171";}
+  else if(timerLeft<=30){el("tsecs").style.color="#FBBF24";el("tfg").style.stroke="#FBBF24";}
+  else{var ph=gph(W);el("tsecs").style.color=ph.color;el("tfg").style.stroke=ph.color;}
+}
+function stopTimer(){clearInterval(timerInt);el("tov").classList.remove("show");}
+
+// ─── RPE SELECTOR ───────────────────────────────────────────────────────────
+function selRpe(v){
+  SEL_RPE=v;
+  var c=rpeC(v);
+  document.querySelectorAll(".rpe-btn").forEach(function(b){
+    var on=parseInt(b.dataset.rpe)===v;
+    b.style.borderColor=on?c:"var(--border2)";
+    b.style.background=on?c:"var(--bg3)";
+    b.style.color=on?"#000":"var(--muted)";
+  });
+}
+
+// ─── LOG MODAL ──────────────────────────────────────────────────────────────
+function openLog(key,ex,si,dotEl){
+  _unlockAudio();
+  var ph=gph(W);
+  pendKey=key;pendEx=ex;pendSi=si;pendDotEl=dotEl;
+  SEL_RPE=null;
+  var prev=DONE[key];
+  var kgHint=prev?prev.kg:parseFloat(ex.kg)||0;
+  var rHint=prev?prev.reps:parseInt(ex.r)||0;
+  el("logbox-exname").textContent=ex.n;
+  el("logbox-title").textContent="Serie "+(si+1);
+  el("logbox-title").style.color=ph.color;
+  el("logbox-plan").textContent="Planificado: "+ex.s+" series × "+ex.r+" reps @ "+ex.kg+" kg  |  Tempo "+ex.tempo+"  |  Descanso "+ex.rest+"s";
+  el("logbtn-ok").style.background=ph.color;
+  el("logbox-vol-val").style.color=ph.color;
+  el("log-kg").value=kgHint||"";
+  el("log-reps").value=rHint||"";
+  // Reset RPE btns
+  document.querySelectorAll(".rpe-btn").forEach(function(b){b.style.borderColor="var(--border2)";b.style.background="var(--bg3)";b.style.color="var(--muted)";});
+  if(prev&&prev.rpe)selRpe(prev.rpe);
+  updateLogVol();
+  el("logmodal").classList.add("show");
+}
+function adjLog(field,delta){
+  var v;
+  if(field==='kg'){
+    v=parseFloat(el("log-kg").value)||0;
+    v=Math.max(0,Math.round((v+delta)*2)/2);
+    el("log-kg").value=v||"";
+  } else {
+    v=parseInt(el("log-reps").value)||0;
+    v=Math.max(0,v+delta);
+    el("log-reps").value=v||"";
+  }
+  updateLogVol();
+}
+function closeLog(){el("logmodal").classList.remove("show");}
+function updateLogVol(){
+  var kg=parseFloat(el("log-kg").value)||0;
+  var reps=parseInt(el("log-reps").value)||0;
+  var vol=kg*reps;
+  el("logbox-vol-val").textContent=vol>0?fmtVol(vol):"—";
+}
+function confirmLog(){
+  var kg=parseFloat(el("log-kg").value)||0;
+  var reps=parseInt(el("log-reps").value)||0;
+  if(!kg&&!reps){closeLog();return;}
+  var vol=kg*reps;
+  var ph=gph(W);
+  DONE[pendKey]={kg:kg,reps:reps,vol:vol,rpe:SEL_RPE};
+  saveState();
+  // Update dot
+  if(pendDotEl){
+    pendDotEl.classList.add("done");
+    pendDotEl.style.borderColor=ph.color;
+    var nn=pendDotEl.querySelector(".sdot-n");
+    var nk=pendDotEl.querySelector(".sdot-kg");
+    var nr=pendDotEl.querySelector(".sdot-reps");
+    var nrpe=pendDotEl.querySelector(".sdot-rpe");
+    if(nn)nn.textContent="✓";
+    if(nk)nk.textContent=kg+"kg";
+    if(nr)nr.textContent=reps+" reps";
+    if(nrpe&&SEL_RPE){nrpe.textContent="RPE "+SEL_RPE;nrpe.style.color=rpeC(SEL_RPE);}
+  }
+  closeLog();
+  updProg();
+  if(T==="registro")updRegistro();
+  var restSecs=parseInt(pendEx.rest)||90;
+  startTimer(restSecs,pendEx.n);
+}
+el("log-kg").addEventListener("input",updateLogVol);
+el("log-reps").addEventListener("input",updateLogVol);
+
+// ─── EXPORT CSV ─────────────────────────────────────────────────────────────
+function exportCSV(){
+  if(Object.keys(DONE).length===0)return alert("No hay datos para exportar.");
+  var csv="Semana,Fase,Sesion,Ejercicio,Serie,Kg,Reps,RPE,Volumen\n";
+  Object.keys(DONE).sort().forEach(function(k){
+    var parts=k.split("-");
+    var w=parseInt(parts[0]),s=parts[1],exI=parseInt(parts[2]),si=parseInt(parts[3]);
+    var ph=gph(w);
+    var exArr=EX[ph.id][s];
+    if(!exArr||!exArr[exI])return;
+    var exName=exArr[exI].n;
+    var d=DONE[k];
+    csv+=[w,ph.name,s,'"'+exName+'"',si+1,d.kg,d.reps,d.rpe||"",d.vol].join(",")+"\n";
+  });
+  var blob=new Blob([csv],{type:"text/csv"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url;a.download="trainingos_data.csv";a.click();
+  setTimeout(function(){URL.revokeObjectURL(url);},100);
+}
+function clearData(){
+  if(confirm("¿Estás seguro de borrar todo tu progreso? Esta acción no se puede deshacer.")){
+    DONE={};W=1;S="A";T="session";_flushSave();location.reload();
+  }
+}
+
+// ─── PHASE & WEEKS ──────────────────────────────────────────────────────────
+function applyPhase(){
+  var ph=gph(W);
+  document.documentElement.style.setProperty("--pc",ph.color);
+  document.documentElement.style.setProperty("--pb",ph.bg);
+  el("la").style.color=ph.color;
+  el("pn").innerHTML="F"+ph.id+" · <span id='pnlbl'>"+ph.label.substring(0,8)+".</span>";
+  el("prv").textContent=ph.rpe;el("prv").style.color=ph.color;
+  el("orb").style.background=ph.color;
+  el("orb").style.boxShadow="0 0 10px "+ph.color+",0 0 20px rgba("+rgb(ph.color)+",.25)";
+  var pct=Math.round(((W-1)/12)*100);
+  el("cppct").textContent=pct+"%";el("cppct").style.color=ph.color;
+  el("cpbar").style.width=pct+"%";
+  el("cpbar").style.background="linear-gradient(90deg,"+PH[0].color+","+ph.color+")";
+  el("cpbar").style.boxShadow="0 0 8px rgba("+rgb(ph.color)+",.4)";
+  for(var i=1;i<=4;i++){
+    var cppe=el("cpp"+i);
+    if(cppe)cppe.style.color=PH[i-1]&&PH[i-1].weeks.indexOf(W)>=0?PH[i-1].color:"var(--muted)";
+    var ws=el("ws"+i);if(ws)ws.style.background=ph.color;
+    var wt=el("wt"+i);if(wt)wt.style.color=ph.color;
+  }
+  if(el("shtitle")){el("shtitle").style.background=ph.color;el("shtitle").style.color="#fff";el("shtitle").style.boxShadow="0 0 0 4px "+ph.bg+",0 4px 16px rgba("+rgb(ph.color)+",.3)";}
+  if(el("sdurval"))el("sdurval").style.color=ph.color;
+  if(el("spbar")){el("spbar").style.background=ph.color;el("spbar").style.boxShadow="0 0 8px rgba("+rgb(ph.color)+",.4)";}
+  if(el("sppct"))el("sppct").style.color=ph.color;
+  document.querySelectorAll(".reg-stat-val").forEach(function(e){e.style.color=ph.color;});
+}
+
+function buildWeeks(){
+  var c=el("wks");c.innerHTML="";
+  var testWks=[4,8,9,12];
+  for(var w=1;w<=12;w++){
+    var ph=gph(w),b=document.createElement("button");
+    b.className="wb"+(w===W?" on":"");b.textContent=w;
+    if(w===W){b.style.borderColor=ph.color;b.style.background=ph.bg;b.style.color=ph.color;b.style.boxShadow="0 0 12px rgba("+rgb(ph.color)+",.2)";}
+    else{b.style.color=ph.color;b.style.borderColor="var(--border)";}
+    if(testWks.indexOf(w)>=0){var tl=document.createElement("span");tl.className="tl";tl.textContent="TEST";b.appendChild(tl);}
+    (function(ww){b.onclick=function(){setWeek(ww);};})(w);
+    c.appendChild(b);
+  }
+  // Auto-scroll active week into view
+  setTimeout(function(){
+    var active=c.querySelector(".wb.on");
+    if(active)active.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  },60);
+}
+
+function updProg(){
+  var ph=gph(W),exs=EX[ph.id][S],total=0,done=0;
+  for(var i=0;i<exs.length;i++){
+    var ns=parseInt(exs[i].s)||0;
+    if(ns>0&&ns<10){total+=ns;for(var j=0;j<ns;j++){if(DONE[W+"-"+S+"-"+i+"-"+j])done++;}}
+  }
+  var pct=total>0?Math.round((done/total)*100):0;
+  el("spdone").textContent=done;el("sptotal").textContent=total;
+  el("spbar").style.width=pct+"%";el("sppct").textContent=pct+"%";
+}
+
+// ─── CHART ──────────────────────────────────────────────────────────────────
+function drawChart(){
+  var cvs=el("volChart");if(!cvs)return;
+  var dpr=window.devicePixelRatio||1;
+  var cw=cvs.parentElement.clientWidth-28;
+  var ch=110;
+  cvs.width=cw*dpr;cvs.height=ch*dpr;
+  cvs.style.width=cw+"px";cvs.style.height=ch+"px";
+  var ctx=cvs.getContext("2d");
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,cw,ch);
+  var ph=gph(W);
+  var themeAttr=document.documentElement.dataset.theme;
+  var isLight=themeAttr==="light"||(themeAttr===undefined&&window.matchMedia("(prefers-color-scheme:light)").matches);
+  var vols=[],maxV=0;
+  for(var i=1;i<=12;i++){
+    var v=0;
+    Object.keys(DONE).forEach(function(k){if(k.startsWith(i+"-"))v+=DONE[k].vol;});
+    vols.push(v);if(v>maxV)maxV=v;
+  }
+  var padT=10,padB=20,padL=4,padR=4;
+  var plotH=ch-padT-padB,plotW=cw-padL-padR;
+  var barW=Math.max(8,(plotW/12)-4);
+  // Gridlines
+  if(maxV>0){
+    ctx.strokeStyle=isLight?"rgba(0,0,0,.06)":"rgba(255,255,255,.04)";
+    ctx.lineWidth=1;
+    for(var g=0;g<3;g++){
+      var gy=padT+plotH*(g/2);
+      ctx.beginPath();ctx.moveTo(padL,gy);ctx.lineTo(cw-padR,gy);ctx.stroke();
+    }
+  }
+  // Bars
+  for(var idx=0;idx<12;idx++){
+    var v=vols[idx];
+    var x=padL+idx*(plotW/12)+(plotW/12-barW)/2;
+    var barH=maxV>0?(v/maxV)*plotH:0;
+    var y=padT+plotH-barH;
+    var isCurrent=(idx+1)===W;
+    var barPh=gph(idx+1);
+    ctx.globalAlpha=isCurrent?1:0.25;
+    if(barH>0){
+      var grad=ctx.createLinearGradient(0,y,0,y+barH);
+      grad.addColorStop(0,barPh.color);
+      grad.addColorStop(1,"rgba("+rgb(barPh.color)+",.3)");
+      ctx.fillStyle=grad;
+      ctx.beginPath();
+      var rr=Math.min(3,barW/2);
+      ctx.roundRect?ctx.roundRect(x,y,barW,barH,rr):ctx.rect(x,y,barW,barH);
+      ctx.fill();
+    }
+    // Week label
+    ctx.globalAlpha=isCurrent?1:0.4;
+    ctx.fillStyle=isCurrent?barPh.color:(isLight?"#527394":"#566A82");
+    ctx.font=(isCurrent?"bold ":"")+"9px 'Barlow Condensed',sans-serif";
+    ctx.textAlign="center";
+    ctx.fillText(idx+1,x+barW/2,ch-5);
+  }
+  ctx.globalAlpha=1;
+}
+
+// ─── REGISTRO ───────────────────────────────────────────────────────────────
+function updRegistro(){
+  var ph=gph(W),exs=EX[ph.id][S];
+  var sessVol=0,weekVol=0,setsDone=0,setsTotal=0;
+  var sessPrefix=W+"-"+S+"-",weekPrefix=W+"-";
+  var rpeSum=0,rpeCount=0;
+  Object.keys(DONE).forEach(function(k){
+    var d=DONE[k];
+    if(k.startsWith(sessPrefix)){sessVol+=d.vol;if(d.rpe){rpeSum+=d.rpe;rpeCount++;}}
+    if(k.startsWith(weekPrefix))weekVol+=d.vol;
+  });
+  for(var i=0;i<exs.length;i++){
+    var ns=parseInt(exs[i].s)||0;
+    if(ns>0&&ns<10){
+      setsTotal+=ns;
+      for(var j=0;j<ns;j++){if(DONE[W+"-"+S+"-"+i+"-"+j])setsDone++;}
+    }
+  }
+  el("reg-vol-sess").textContent=sessVol>0?fmtVol(sessVol):"—";
+  el("reg-sets-done").textContent=setsDone;
+  el("reg-sets-total").textContent=setsTotal;
+  el("reg-vol-week").textContent=weekVol>0?fmtVol(weekVol):"—";
+  if(el("reg-rpe-avg"))el("reg-rpe-avg").textContent=rpeCount>0?(rpeSum/rpeCount).toFixed(1):"—";
+  if(el("reg-week-num"))el("reg-week-num").textContent=W;
+  if(el("reg-pct-done"))el("reg-pct-done").textContent=setsTotal>0?Math.round((setsDone/setsTotal)*100)+"%":"0%";
+  var list=el("reg-list");
+  var hasData=false;
+  list.innerHTML=exs.map(function(ex,i){
+    var ns=parseInt(ex.s)||0;
+    if(ns<1||ns>9)return "";
+    var doneSets=[],exVol=0;
+    for(var j=0;j<ns;j++){var d=DONE[W+"-"+S+"-"+i+"-"+j];if(d){exVol+=d.vol;doneSets.push({si:j,d:d});}}
+    if(!doneSets.length)return "";
+    hasData=true;
+    var rows=doneSets.map(function(item){
+      var rc=item.d.rpe?rpeC(item.d.rpe):"";
+      var rpeSpan=item.d.rpe
+        ?'<span class="reg-set-rpe" style="color:'+rc+';background:rgba('+rgb(rc)+',.1)">RPE '+item.d.rpe+'</span>'
+        :"";
+      return '<div class="reg-set">'
+        +'<div class="reg-set-n" style="color:'+ph.color+'">'+(item.si+1)+'</div>'
+        +'<div class="reg-set-data">'+item.d.kg+' kg × '+item.d.reps+' reps'+rpeSpan+'</div>'
+        +'<div class="reg-set-vol">'+fmtVol(item.d.vol)+'</div>'
+        +'</div>';
+    }).join("");
+    return '<div class="reg-excard">'
+      +'<div class="reg-exhdr">'
+        +'<div class="reg-exname">'+ex.n+'</div>'
+        +'<div><span class="reg-exvol" style="color:'+ph.color+'">'+fmtVol(exVol)+'</span><span class="reg-exvol-unit">kg·rep</span></div>'
+      +'</div>'
+      +'<div class="reg-sets">'+rows+'</div>'
+      +'</div>';
+  }).join("");
+  if(!hasData){
+    list.innerHTML='<div class="reg-empty"><div class="reg-empty-icon">📝</div><div class="reg-empty-title">Sin datos en esta sesión</div><div class="reg-empty-sub">Completa series en la pestaña Sesión para ver el registro aquí.</div></div>';
+  }
+  drawChart();
+}
+
+// ─── SESSION RENDER ──────────────────────────────────────────────────────────
+function renderSession(){
+  var ph=gph(W);
+  el("shtitle").textContent=S;
+  el("shtitle").style.background=ph.color;
+  el("shtitle").style.color="#fff";
+  el("shtitle").style.boxShadow="0 0 0 4px "+ph.bg+",0 4px 16px rgba("+rgb(ph.color)+",.3)";
+  el("shfocus").textContent=SF[S]||"";
+  el("shmeta").textContent=ph.name+" · Semana "+W+" · RPE "+ph.rpe;
+  el("sdurval").textContent=(SD[S]&&SD[S][ph.id])||"~50 min";
+  el("sdurval").style.color=ph.color;
+  var exs=EX[ph.id][S];
+  var list=el("exlist");
+
+  list.innerHTML=exs.map(function(ex,ei){
+    var rc=rpeC(parseFloat(ex.rpe));
+    var ns=parseInt(ex.s)||0;
+    var setsHTML="";
+    if(ns>0&&ns<10){
+      var dots=Array.from({length:ns},function(_,si){
+        var k=W+"-"+S+"-"+ei+"-"+si;
+        var d=DONE[k];
+        var rc2=d&&d.rpe?rpeC(d.rpe):"";
+        return '<div class="sdot'+(d?" done":"")+'" data-key="'+k+'" data-ei="'+ei+'" data-si="'+si+'"'
+          +(d?' style="border-color:'+ph.color+'"':'')+'>'
+          +'<div class="sdot-rpe"'+(rc2?' style="color:'+rc2+'"':'')+'>'+(d&&d.rpe?"RPE "+d.rpe:"")+'</div>'
+          +'<div class="sdot-n"'+(d?' style="color:'+ph.color+'"':'')+'>'+(d?"✓":si+1)+'</div>'
+          +'<div class="sdot-kg"'+(d?' style="color:'+ph.color+'"':'')+'>'+(d?d.kg+"kg":"")+'</div>'
+          +'<div class="sdot-reps">'+(d?d.reps+" reps":"")+'</div>'
+          +'</div>';
+      }).join("");
+      setsHTML='<div class="setslbl">Registrar series</div>'
+        +'<div class="setshint">Toca una serie para registrar peso y reps. El temporizador iniciará automáticamente.</div>'
+        +'<div class="setsrow">'+dots+'</div>';
+    }
+    return '<div class="excard">'
+      +'<div class="extop">'
+        +'<div class="exnum" style="background:'+ph.bg+';color:'+ph.color+'">'+(ei+1)+'</div>'
+        +'<div class="exmain">'
+          +'<div class="exname">'+ex.n+'</div>'
+          +'<div class="exsub">'+ex.s+' series · '+ex.r+' reps · '+ex.kg+' kg</div>'
+        +'</div>'
+        +'<div class="exqs">'
+          +'<div class="exqchip" style="border-color:rgba('+rgb(rc)+',.3)">'
+            +'<div class="exql">RPE</div><div class="exqv" style="color:'+rc+'">'+ex.rpe+'</div>'
+          +'</div>'
+          +'<div class="exqchip"><div class="exql">Desc.</div><div class="exqv">'+ex.rest+'s</div></div>'
+        +'</div>'
+        +'<span class="excaret">▶</span>'
+      +'</div>'
+      +'<div class="exbody">'
+        +(ex.init?'<div class="inittag">🎯 Carga inicial: <b>'+ex.init+'</b></div>':'')
+        +'<div class="sgrid">'
+          +'<div class="sbox"><div class="sbl">Series</div><div class="sbv">'+ex.s+'</div></div>'
+          +'<div class="sbox"><div class="sbl">Reps</div><div class="sbv">'+ex.r+'</div></div>'
+          +'<div class="sbox"><div class="sbl">Tempo</div><div class="sbv">'+ex.tempo+'</div></div>'
+          +'<div class="sbox"><div class="sbl">RPE</div><div class="sbv">'+ex.rpe+'</div></div>'
+        +'</div>'
+        +'<div class="cue" style="border-color:'+ph.color+'">'
+          +'<div class="cuel">Instrucción clave</div><div class="cuet">'+ex.cue+'</div>'
+        +'</div>'
+        +setsHTML
+      +'</div>'
+      +'</div>';
+  }).join("");
+
+  updProg();
+  // Test banner
+  var tb=el("testbanner");
+  if(TM[W]){
+    var tm=TM[W],h="";
+    h+='<div class="tw-hero"><div class="tw-badge">Semana '+W+' — '+tm.badge+'</div>';
+    h+='<div class="tw-title">'+tm.title+'</div><div class="tw-sub">'+tm.sub+'</div></div>';
+    h+='<div class="tw-sec">Cómo proceder</div>';
+    for(var hi=0;hi<tm.how.length;hi++){
+      var hw=tm.how[hi];
+      h+='<div class="tw-card"><div class="tw-ctitle"><span>'+hw.icon+'</span>'+hw.title+'</div>';
+      if(hw.formula){
+        var uid="rm"+hi+"_"+W;
+        h+='<div class="tw-formula"><b>Fórmula de Brzycki:</b><br><code>1RM = Peso / (1.0278 − 0.0278 × reps)</code></div>';
+        h+='<div class="rm-inline"><div class="rm-inline-fields">';
+        h+='<div class="rm-inline-field"><label>Peso (kg)</label><input type="number" id="rmi-kg-'+uid+'" inputmode="decimal" step="0.5" placeholder="75" oninput="calcRMi(\''+uid+'\')" autocomplete="off"></div>';
+        h+='<div class="rm-inline-field"><label>Repeticiones</label><input type="number" id="rmi-reps-'+uid+'" inputmode="numeric" placeholder="8" oninput="calcRMi(\''+uid+'\')" autocomplete="off"></div>';
+        h+='</div><div class="rm-inline-result" id="rmi-res-'+uid+'"><span class="rm-inline-result-lbl">1RM Estimado</span><span class="rm-inline-result-val" id="rmi-val-'+uid+'">— kg</span></div>';
+        h+='<div class="rm-inline-pcts" id="rmi-pcts-'+uid+'">';
+        [[90,"~3"],[85,"~5"],[75,"~8"],[65,"~12"]].forEach(function(p){
+          h+='<div class="rm-inline-pct"><div class="rm-inline-pct-lbl">'+p[0]+'%</div><div class="rm-inline-pct-val" id="rmi-p'+p[0]+'-'+uid+'">—</div><div class="rm-inline-pct-reps">'+p[1]+' reps</div></div>';
+        });
+        h+='</div></div>';
+      } else {
+        for(var si=0;si<hw.steps.length;si++){h+='<div class="tw-step"><div class="tw-stepn">'+(si+1)+'</div><div>'+hw.steps[si]+'</div></div>';}
+      }
+      h+='</div>';
+    }
+    h+='<div class="tw-sec">Qué medir</div>';
+    h+='<div class="tw-measure"><div class="tw-mtitle">'+tm.measure.title+'</div><div class="tw-mgrid">';
+    tm.measure.items.forEach(function(it){h+='<div class="tw-mbox"><div class="tw-ml">'+it[0]+'</div><div class="tw-mv">'+it[1]+'</div></div>';});
+    h+='</div></div>';
+    tb.innerHTML=h;tb.className="testbanner";
+  } else {tb.innerHTML="";tb.className="";}
+}
+
+// ─── TÉCNICA ────────────────────────────────────────────────────────────────
+function renderTech(){
+  var ph=gph(W),d=TECH[TK],c=el("techcontent");c.innerHTML="";
+  var card=document.createElement("div");card.className="techcard";card.style.borderColor="rgba("+rgb(ph.color)+",.3)";
+  var hdr=document.createElement("div");hdr.className="techhdr";hdr.style.background=ph.bg;
+  var icon=document.createElement("div");icon.className="techicon";icon.textContent=d.icon;
+  var info=document.createElement("div");
+  var tn=document.createElement("div");tn.className="techname";tn.textContent=d.name;tn.style.color=ph.color;
+  var ts=document.createElement("div");ts.className="techsub";ts.textContent="Checklist de ejecución técnica";
+  info.appendChild(tn);info.appendChild(ts);hdr.appendChild(icon);hdr.appendChild(info);card.appendChild(hdr);
+  var steps=document.createElement("div");steps.className="techsteps";
+  d.steps.forEach(function(s,i){
+    var row=document.createElement("div");row.className="ts";
+    var n=document.createElement("div");n.className="tsn";n.textContent=i+1;n.style.background=ph.bg;n.style.color=ph.color;
+    var t=document.createElement("div");t.className="tst";t.textContent=s;
+    row.appendChild(n);row.appendChild(t);steps.appendChild(row);
+  });
+  card.appendChild(steps);
+  var sf=document.createElement("div");sf.className="safetybox";
+  var st=document.createElement("div");st.className="safetyt";st.textContent="Seguridad en fallo";
+  var sb=document.createElement("div");sb.className="safetybody";sb.textContent=d.safety;
+  sf.appendChild(st);sf.appendChild(sb);card.appendChild(sf);c.appendChild(card);
+}
+
+// ─── UI STATE ────────────────────────────────────────────────────────────────
+function updSessBtns(){
+  var ph=gph(W);
+  document.querySelectorAll(".sp").forEach(function(b){
+    var on=b.dataset.s===S;
+    b.classList.toggle("on",on);
+    b.style.borderColor=on?ph.color:"var(--border)";
+    b.style.background=on?ph.bg:"var(--bg2)";
+    b.style.color=on?ph.color:"var(--muted)";
+    var snEl=b.querySelector(".sn");
+    if(snEl){snEl.style.background=on?ph.color:"var(--bg3)";snEl.style.borderColor=on?ph.color:"var(--border2)";snEl.style.color=on?"#fff":"var(--muted)";}
+  });
+}
+function updTabBtns(){
+  var ph=gph(W);
+  var ids=["session","warmup","progression","technique","registro","nutricion"];
+  document.querySelectorAll(".ctb").forEach(function(b,i){
+    var on=ids[i]===T;
+    b.classList.toggle("on",on);
+    b.style.background=on?ph.bg:"transparent";
+    b.style.color=on?ph.color:"var(--muted)";
+  });
+  document.querySelectorAll(".mnb").forEach(function(b,i){
+    var on=ids[i]===T;
+    b.classList.toggle("on",on);
+    b.style.color=on?ph.color:"var(--muted)";
+  });
+}
+function updTechPills(){
+  var ph=gph(W);
+  document.querySelectorAll(".tpill").forEach(function(b){
+    var on=b.dataset.t===TK;
+    b.style.borderColor=on?ph.color:"var(--border)";
+    b.style.background=on?ph.bg:"transparent";
+    b.style.color=on?ph.color:"var(--muted)";
+    b.style.fontWeight=on?"700":"600";
+  });
+}
+function toggleWu(el){el.classList.toggle("chk");}
+
+// ─── ACCIONES ────────────────────────────────────────────────────────────────
+function setWeek(w){
+  W=w;saveState();
+  buildWeeks();applyPhase();updSessBtns();updTabBtns();updTechPills();
+  if(T==="session")renderSession();
+  if(T==="technique")renderTech();
+  if(T==="registro")updRegistro();
+}
+function setSess(s){
+  S=s;saveState();updSessBtns();
+  if(T==="session")renderSession();
+  if(T==="registro")updRegistro();
+}
+var TAB_SIDEBAR_LABELS={session:"Entrenamiento",warmup:"Calentamiento",progression:"Progresión",technique:"Ejercicios",registro:"Estadísticas",nutricion:"Plan"};
+function setTab(t){
+  T=t;saveState();updTabBtns();
+  document.querySelectorAll(".panel").forEach(function(p){p.classList.remove("on");});
+  var p=el("p-"+t);if(p)p.classList.add("on");
+  var isSession=t==="session";
+  document.querySelectorAll(".sidebar-main-only").forEach(function(e){
+    e.classList.toggle("hidden",!isSession);
+  });
+  var sb=el("sidebar");if(sb)sb.classList.toggle("has-content",isSession);
+  var toolsSl=el("tools-sl");
+  if(toolsSl)toolsSl.textContent=TAB_SIDEBAR_LABELS[t]||t;
+  if(t==="session")renderSession();
+  if(t==="technique")renderTech();
+  if(t==="registro")updRegistro();
+}
+function setTech(k){TK=k;updTechPills();renderTech();}
+
+window.addEventListener("resize",function(){if(T==="registro")drawChart();});
+
+// ─── THEME TOGGLE ────────────────────────────────────────────────────────────
+function toggleTheme(){
+  var html=document.documentElement;
+  var cur=html.dataset.theme;
+  var isCurrentlyDark=cur==="dark"||(cur===undefined&&!window.matchMedia("(prefers-color-scheme:light)").matches);
+  var next=isCurrentlyDark?"light":"dark";
+  html.dataset.theme=next;
+  localStorage.setItem("trainingos_theme",next);
+  var mc=document.querySelector("meta[name='theme-color']");
+  if(mc)mc.content=next==="light"?"#F0F4FA":"#07090E";
+  // Visual feedback on orb
+  var orb=el("orb-wrap");
+  orb.style.transform="scale(1.3)";
+  setTimeout(function(){orb.style.transform="";},200);
+}
+
+// ─── 1RM INLINE CALCULATOR ───────────────────────────────────────────────────
+function calcRMi(uid){
+  var kg=parseFloat(document.getElementById("rmi-kg-"+uid).value)||0;
+  var reps=parseInt(document.getElementById("rmi-reps-"+uid).value)||0;
+  var ph=gph(W);
+  var resBox=document.getElementById("rmi-res-"+uid);
+  var valEl=document.getElementById("rmi-val-"+uid);
+  if(kg>0&&reps>=1&&reps<=30){
+    var rm=reps===1?kg:kg/(1.0278-0.0278*reps);
+    rm=Math.round(rm*10)/10;
+    valEl.textContent=rm+" kg";
+    valEl.style.color=ph.color;
+    resBox.classList.add("has-result");
+    resBox.style.borderColor=ph.color;
+    var pcts=[[90,"rmi-p90"],[85,"rmi-p85"],[75,"rmi-p75"],[65,"rmi-p65"]];
+    pcts.forEach(function(p){
+      var el2=document.getElementById(p[1]+"-"+uid);
+      if(el2){el2.textContent=Math.round(rm*(p[0]/100)*2)/2+" kg";el2.style.color=ph.color;}
+    });
+  } else {
+    valEl.textContent="— kg";
+    valEl.style.color="var(--muted)";
+    resBox.classList.remove("has-result");
+    resBox.style.borderColor="";
+    ["rmi-p90","rmi-p85","rmi-p75","rmi-p65"].forEach(function(p){
+      var el2=document.getElementById(p+"-"+uid);
+      if(el2){el2.textContent="—";el2.style.color="var(--muted)";}
+    });
+  }
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+(function(){
+  var t=localStorage.getItem("trainingos_theme");
+  if(t)document.documentElement.dataset.theme=t;
+})();
+buildWeeks();
+applyPhase();
+setSess(S);
+setTab(T);
+renderTech();
+var sb=el("sidebar");if(sb)sb.classList.toggle("has-content",T==="session");
+
+// ─── EVENT DELEGATION (single listener, lives forever) ───────────────────────
+el("exlist").addEventListener("click",function(e){
+  var top=e.target.closest(".extop");
+  if(top){
+    var card=top.closest(".excard");
+    var isOpen=card.classList.contains("open");
+    document.querySelectorAll("#exlist .excard.open").forEach(function(c){c.classList.remove("open");});
+    if(!isOpen){
+      card.classList.add("open");
+      setTimeout(function(){card.scrollIntoView({behavior:"smooth",block:"nearest"});},50);
+    }
+    return;
+  }
+  var dot=e.target.closest(".sdot");
+  if(dot){
+    e.stopPropagation();
+    var ei=parseInt(dot.dataset.ei,10);
+    var si=parseInt(dot.dataset.si,10);
+    var ph=gph(W);
+    openLog(dot.dataset.key,EX[ph.id][S][ei],si,dot);
+  }
+});
+
+// ─── PUBLIC API (exposed for inline HTML event attributes) ───────────────────
+window.setWeek=setWeek;window.setSess=setSess;window.setTab=setTab;window.setTech=setTech;
+window.adjTimer=adjTimer;window.stopTimer=stopTimer;
+window.adjLog=adjLog;window.closeLog=closeLog;window.confirmLog=confirmLog;window.selRpe=selRpe;
+window.toggleWu=toggleWu;window.toggleTheme=toggleTheme;
+window.exportCSV=exportCSV;window.clearData=clearData;window.calcRMi=calcRMi;
+
+// ─── PWA — SERVICE WORKER ────────────────────────────────────────────────────
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js')
+      .catch(function(err){console.warn('SW registro fallido:',err);});
+  });
+}
+
+})(); // end IIFE
+</script>
+</body>
+</html>

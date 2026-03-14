@@ -1,0 +1,23 @@
+{
+  "name": "HIPERAXN",
+  "short_name": "HIPERAXN",
+  "description": "Sistema operativo de entrenamiento e hipertrofia",
+  "start_url": "./HIPERAXN.html",
+  "display": "standalone",
+  "background_color": "#080B13",
+  "theme_color": "#070A0F",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
